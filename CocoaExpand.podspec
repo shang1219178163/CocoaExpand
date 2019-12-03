@@ -2,12 +2,9 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CocoaExpand'
-  s.version          = '0.1.1'
+  s.version          = '1.0.0'
   s.summary          = 'A short description of CocoaExpand.'
-
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  s.description      = 'Cocoa 功能扩展（macApp）'
 
   s.homepage         = 'https://github.com/shang1219178163@gmail.com/CocoaExpand'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
@@ -17,8 +14,10 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform = :osx
-  s.osx.deployment_target = "10.10"
-
+  s.osx.deployment_target = "10.12"
+  s.swift_version = "5.0"
+  s.requires_arc = true
+  
   s.source_files = 'CocoaExpand/Classes/**/*'
   s.resource_bundles = {
     'CocoaExpand' => ['CocoaExpand/Assets/*.png']

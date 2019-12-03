@@ -58,7 +58,7 @@ import Cocoa
     static var appCopyright: String {
         return Bundle.main.infoDictionary!["NSHumanReadableCopyright"] as! String;
     }
-    
+    @available(OSX 10.12, *)
     static var macUserName: String {
         return ProcessInfo.processInfo.userName;
     }

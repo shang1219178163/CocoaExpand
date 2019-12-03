@@ -10,7 +10,6 @@
 #endif
 #endif
 
-
 FOUNDATION_EXPORT double CocoaExpandVersionNumber;
 FOUNDATION_EXPORT const unsigned char CocoaExpandVersionString[];
 

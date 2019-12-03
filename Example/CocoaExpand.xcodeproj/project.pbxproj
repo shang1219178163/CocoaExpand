@@ -31,9 +31,9 @@
 		6BC604887B2216E28D42865D /* Pods-CocoaExpand_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaExpand_Example.debug.xcconfig"; path = "Target Support Files/Pods-CocoaExpand_Example/Pods-CocoaExpand_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		6EF4BBC9EB1A71136EBF49E8 /* Pods_CocoaExpand_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CocoaExpand_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79DD93FD12E59DA01F9C5F85 /* Pods-CocoaExpand_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaExpand_Example.release.xcconfig"; path = "Target Support Files/Pods-CocoaExpand_Example/Pods-CocoaExpand_Example.release.xcconfig"; sourceTree = "<group>"; };
-		7A4541966B3759FB6DB1051F /* CocoaExpand.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = CocoaExpand.podspec; path = ../CocoaExpand.podspec; sourceTree = "<group>"; };
-		7CF5AEF1731A2BC1889FB9C7 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		8C42E919E7A6D2E78C8E45FC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		7A4541966B3759FB6DB1051F /* CocoaExpand.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = CocoaExpand.podspec; path = ../CocoaExpand.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		7CF5AEF1731A2BC1889FB9C7 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		8C42E919E7A6D2E78C8E45FC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		CB39145D7DF46B0732AF302C /* Pods_CocoaExpand_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CocoaExpand_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED83F67820348A760038D96B /* CocoaExpand_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaExpand_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED83F67B20348A760038D96B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,7 +76,6 @@
 				EDA92DFA83722B3208F07E4A /* Pods-CocoaExpand_Tests.debug.xcconfig */,
 				3A2B7567CBC4AEFB488BE730 /* Pods-CocoaExpand_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

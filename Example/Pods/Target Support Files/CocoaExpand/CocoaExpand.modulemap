@@ -1,0 +1,6 @@
+framework module CocoaExpand {
+  umbrella header "CocoaExpand-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,27 +1,16 @@
 PODS:
-  - CocoaExpand (1.0.1.1)
-  - Nimble (7.0.3)
-  - Quick (1.2.0)
+  - CocoaExpand (1.0.1.4)
 
 DEPENDENCIES:
   - CocoaExpand (from `../`)
-  - Nimble (~> 7.0.2)
-  - Quick (~> 1.2.0)
-
-SPEC REPOS:
-  trunk:
-    - Nimble
-    - Quick
 
 EXTERNAL SOURCES:
   CocoaExpand:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CocoaExpand: 947a0303e8f903b66386554937f4a160daf788c8
-  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
-  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
+  CocoaExpand: 04bf753147a0e0f21fd61ac9f9cab01012c9ba26
 
-PODFILE CHECKSUM: 324ea39ba72e98674d3b37da4b5659982bc6b23a
+PODFILE CHECKSUM: 0cd94b2bbd0f2fe9cb24dfdf63c36f74bb198fd9
 
 COCOAPODS: 1.8.4

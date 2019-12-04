@@ -22,7 +22,7 @@ pod 'CocoaExpand'
 
 ## Author
 
-shang1219178163@gmail.com, shang1219178163@gmail.com
+shang1219178163, shang1219178163@gmail.com
 
 ## License
 

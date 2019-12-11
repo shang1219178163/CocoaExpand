@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import CocoaExpand
 
 class ViewController: NSViewController {
 
@@ -15,6 +16,12 @@ class ViewController: NSViewController {
 
     // Do any additional setup after loading the view.
   }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        DDLog(kScreenWidth)
+    }
 
   override var representedObject: Any? {
     didSet {

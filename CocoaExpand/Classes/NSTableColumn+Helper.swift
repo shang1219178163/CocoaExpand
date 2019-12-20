@@ -20,7 +20,7 @@ import Cocoa
         column.headerToolTip = column.title;
         column.headerCell.alignment = .center;
         
-        column.resizingMask = .userResizingMask;
+//        column.resizingMask = .userResizingMask;//可手动调整宽度
         
         let sort = NSSortDescriptor(key: column.title, ascending: false, selector: #selector(NSString.localizedCompare(_:)))
         column.sortDescriptorPrototype = sort

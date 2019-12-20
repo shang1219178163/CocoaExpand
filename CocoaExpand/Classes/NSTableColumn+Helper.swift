@@ -18,9 +18,10 @@ import Cocoa
         column.minWidth = 40;
         column.maxWidth = CGFloat.greatestFiniteMagnitude;
         column.headerToolTip = column.title;
-        column.resizingMask = .autoresizingMask;
         column.headerCell.alignment = .center;
-
+        
+        column.resizingMask = .userResizingMask;
+        
         let sort = NSSortDescriptor(key: column.title, ascending: false, selector: #selector(NSString.localizedCompare(_:)))
         column.sortDescriptorPrototype = sort
         return column;

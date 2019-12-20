@@ -5,11 +5,60 @@
 [![License](https://img.shields.io/cocoapods/l/CocoaExpand.svg?style=flat)](https://cocoapods.org/pods/CocoaExpand)
 [![Platform](https://img.shields.io/cocoapods/p/CocoaExpand.svg?style=flat)](https://cocoapods.org/pods/CocoaExpand)
 
+## Usage
+
+Swift
+```
+// custom CellView
+class NSTableCellViewOne: NSTableCellView { ... }
+// use
+let cell = tableView.makeView(for: NSTableCellViewOne.self)
+
+public extension NSTableView {
+    /// makeView
+    final func makeView<T: NSTableCellView>(for cellType: T.Type, identifier: String = String(describing: T.self), style: NSTableView.RowSizeStyle = .default) -> T {
+        if let view: NSTableCellView = makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: identifier), owner: T.self) as? T {
+            return view as! T;
+        }
+        let cellView = T.init()
+        cellView.identifier = NSUserInterfaceItemIdentifier(rawValue: identifier);
+        cellView.wantsLayer = true;
+        return cellView;
+    }
+}
+```
+
+Objective-C && Swift
+```
+// custom CellView
+class NSTableCellViewOne: NSTableCellView { ... }
+// use
+let cell = NSTableCellViewOne.makeView(tableView: tableView, identifier: identifier, owner: self)
+
+@objc public extension NSTableCellView {
+
+    /// 复用NSTableCellView
+    static func makeView(tableView: NSTableView, identifier: String = String(describing: self), owner: Any) -> Self {
+        if let view: NSTableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: identifier), owner: owner) as? NSTableCellView {
+            return view as! Self;
+        }
+        let cellView = self.init()
+        cellView.identifier = NSUserInterfaceItemIdentifier(rawValue: identifier);
+        cellView.wantsLayer = true;
+        return cellView;
+    }
+}
+```
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+
+```
+s.osx.deployment_target = "10.12"
+s.swift_version = "5.0"
+```
 
 ## Installation
 

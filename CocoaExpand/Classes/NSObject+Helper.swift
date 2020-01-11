@@ -187,13 +187,7 @@ import Cocoa
         let attString = NSAttributedString.attString(string, textTaps: [prefix], font: 15, tapFont: 15, color: .black, tapColor: colorMust, alignment: .left)
         return attString
     }
-     //MARK:数据解析通用化封装
-//   public static func modelWithJSONFile(_ fileName: String) -> AnyObject? {
-//
-//        let jsonString = fileName.jsonFileToJSONString();
-//        let rootModel = Mapper<self.classForCoder()>().map(JSONString: jsonString);
-//        return rootModel;
-//    }
+
 
 }
 

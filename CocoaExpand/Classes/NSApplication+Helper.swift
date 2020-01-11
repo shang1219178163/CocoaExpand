@@ -59,41 +59,49 @@ import Cocoa
         return Bundle.main.infoDictionary!["NSHumanReadableCopyright"] as! String;
     }
     
-    static var macUserName: String {
+    static var userName: String {
         return ProcessInfo.processInfo.userName;
     }
     
-    static var macLocalizedName: String {
+    static var localizedName: String {
         return Host.current().localizedName ?? "";
     }
     
-    static var macSystemDic: NSDictionary? {
+    static var systemDic: NSDictionary? {
         return NSDictionary(contentsOfFile: "/System/Library/CoreServices/SystemVersion.plist")
     }
-    
-    static var macProductName: String {
-        return (self.macSystemDic?["ProductName"] as! String);
+    /// MacOX
+    static var productName: String {
+        return (self.systemDic?["ProductName"] as! String);
+    }
+    /// MacOX 版权
+    static var productCopyright: String {
+        return (self.systemDic?["ProductCopyright"] as! String);
+    }
+    /// MacOX 版权
+    static var productVersion: String {
+        return (self.systemDic?["ProductVersion"] as! String);
     }
     
-    static var macCoryright: String {
-        return (self.macSystemDic?["ProductCopyright"] as! String);
-    }
-    
-    static var macSystemVers: String {
-        return (self.macSystemDic?["ProductVersion"] as! String);
-    }
-    
+    /// 获取默认版权信息
     static var classCopyright: String {
+        return getCopyright(with: "", type: "")
+    }
+    /// 获取文件版权信息
+    static func getCopyright(with name: String, type: String,
+                             bundleName: String = NSApplication.appBundleName, author: String = NSApplication.userName, organization: String = NSApplication.userName) -> String {
         let dateStr = DateFormatter.stringFromDate(Date(), fmt: "yyyy/MM/dd HH:mm")
         let year = dateStr.components(separatedBy: "/").first!
+
+        let fileName = [name, type].contains("") ? "\(name)\(type)" : "\(name).\(type)"
         let result = """
-        //\n\
-        //\n\
-        //  MacTemplet\n\
-        //\n\
-        //  Created by \(self.macUserName) on \(dateStr).\n\
-        //  Copyright © \(year) \(self.macUserName). All rights reserved.\n\
-        //\n\n
+        //
+        //\t\(fileName)
+        //\t\(bundleName)
+        //
+        //\tCreated by \(author) on \(dateStr)
+        //\tCopyright © \(year) \(organization). All rights reserved.
+        //\n
         """
         return result;
     }

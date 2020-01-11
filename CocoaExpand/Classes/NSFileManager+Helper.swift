@@ -13,20 +13,25 @@ import Cocoa
     /// 下载目录
     static var downloadsDir = FileManager.default.urls( for: .downloadsDirectory, in:.userDomainMask).first;
 
-    static func createFile(_ atPath: String, name: String, content: String, attributes: [FileAttributeKey : Any]?, isCover: Bool = true) -> Bool {
+    ///根据文件名和路径创建文件
+    static func createFile(atPath path: String, name: String, content: String, attributes: [FileAttributeKey : Any]?, isCover: Bool = true) -> Bool {
 //        let filePath = atPath + "/\(name)"
-        let filePath = isCover ? "\(atPath)/\(name)" :  "\(atPath)/\(name)_\(DateFormatter.stringFromDate(Date()))";
+        let filePath = isCover ? "\(path)/\(name)" :  "\(path)/\(name)_\(DateFormatter.stringFromDate(Date()))";
         return FileManager.default.createFile(atPath: filePath, contents: content.data(using: .utf8), attributes: attributes)
     }
-    
-    //根据文件名和路径创建文件
-    static func createFile(content: String, name: String, dirUrl: URL? = FileManager.downloadsDir, openDir: Bool = true){
-        guard let dirUrl = dirUrl else { return }
-        let fileUrl = dirUrl.appendingPathComponent(name)
+ 
+    ///创建文件到下载目录
+    static func createFile(dirUrl: URL = FileManager.downloadsDir!, content: String, name: String, type: String, isCover: Bool = true, openDir: Bool = true){
+        let fileUrl = dirUrl.appendingPathComponent("\(name).\(type)")
+        let data = content.data(using: .utf8)
 
         let exist = FileManager.default.fileExists(atPath: fileUrl.path)
         if !exist {
-            let data = content.data(using: .utf8)
+            let isSuccess = FileManager.default.createFile(atPath: fileUrl.path, contents: data, attributes: nil)
+            print("文件创建结果: \(isSuccess)")
+        } else {
+            let fileName = isCover ? "\(name).\(type)" : "\(name) \(DateFormatter.stringFromDate(Date())).\(type)";
+            let fileUrl = dirUrl.appendingPathComponent(fileName)
             let isSuccess = FileManager.default.createFile(atPath: fileUrl.path, contents: data, attributes: nil)
             print("文件创建结果: \(isSuccess)")
         }
@@ -34,4 +39,23 @@ import Cocoa
             NSWorkspace.shared.open(dirUrl)
         }
     }
+//    //创建文件到下载目录
+//    static func createFile(dirUrl: URL = FileManager.downloadsDir!, content: String, name: String, isCover: Bool = true, openDir: Bool = true){
+//        let fileUrl = dirUrl.appendingPathComponent(name)
+//        let data = content.data(using: .utf8)
+//
+//        let exist = FileManager.default.fileExists(atPath: fileUrl.path)
+//        if !exist {
+//            let isSuccess = FileManager.default.createFile(atPath: fileUrl.path, contents: data, attributes: nil)
+//            print("文件创建结果: \(isSuccess)")
+//        } else {
+//            let fileName = isCover ? "\(name)" : "\(name) \(DateFormatter.stringFromDate(Date()))";
+//            let fileUrl = dirUrl.appendingPathComponent(fileName)
+//            let isSuccess = FileManager.default.createFile(atPath: fileUrl.path, contents: data, attributes: nil)
+//            print("文件创建结果: \(isSuccess)")
+//        }
+//        if openDir {
+//            NSWorkspace.shared.open(dirUrl)
+//        }
+//    }
 }

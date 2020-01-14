@@ -101,7 +101,7 @@ import Cocoa
         //
         //\tCreated by \(author) on \(dateStr)
         //\tCopyright © \(year) \(organization). All rights reserved.
-        //\n
+        //\n\n
         """
         return result;
     }

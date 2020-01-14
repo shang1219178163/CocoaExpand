@@ -101,6 +101,18 @@ public extension String{
         (self as NSString).copyToPasteboard(showTips)
     }
     
+    /// 获取前缀
+    func getPrefix(with separates: [String]) -> String {
+        var reult = ""
+        for value in separates {
+            if self.contains(value) {
+                reult = self.components(separatedBy: value).first!
+                break
+            }
+        }
+        return reult;
+    }
+    
     /// 字符串开始到第index
     func substringTo(_ index: Int) -> String {
         guard index < self.count else {

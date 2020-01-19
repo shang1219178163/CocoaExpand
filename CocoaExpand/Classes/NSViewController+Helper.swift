@@ -9,7 +9,7 @@
 import Cocoa
 
 @objc public extension NSViewController {
-    
+
     var tbView: NSTableView {
         get {
             var obj = objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as? NSTableView;

@@ -10,13 +10,20 @@ import Cocoa
 
 @objc public extension NSButton {
 
-    @available(OSX 10.12.2, *)
     static func create(_ rect: CGRect) -> Self {
         let view: NSButton = self.init(frame: rect);
         view.autoresizingMask = [.width, .height]
         view.bezelStyle = .regularSquare
-        view.bezelColor = NSColor.lightGreen
+        
+        if #available(macOS 10.12.2, *) {
+            view.bezelColor = NSColor.lightGreen
+        }
 
         return view as! Self;
+    }
+    
+    func setTitleColor(_ color: NSColor, font: CGFloat = 15) {
+        let attDic = NSAttributedString.attrDict(font, textColor: color)
+        self.attributedTitle = NSAttributedString(string: title, attributes: attDic)
     }
 }

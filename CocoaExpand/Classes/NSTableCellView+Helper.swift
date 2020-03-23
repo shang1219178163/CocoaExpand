@@ -12,14 +12,27 @@ import Cocoa
 
     /// 复用NSTableCellView
     static func makeView(tableView: NSTableView, identifier: String = String(describing: self), owner: Any) -> Self {
-        if let view: NSTableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: identifier), owner: owner) as? NSTableCellView {
-            return view as! Self;
+        let itemIdentifier = NSUserInterfaceItemIdentifier(rawValue: identifier);
+        if let view = tableView.makeView(withIdentifier: itemIdentifier, owner: owner) as? Self {
+            return view;
         }
-        let cellView = self.init()
-        cellView.identifier = NSUserInterfaceItemIdentifier(rawValue: identifier);
+        let cellView = Self.init()
+        cellView.identifier = itemIdentifier;
         cellView.wantsLayer = true;
         return cellView;
     }
+    
+//    static func makeView(tableView: NSTableView, identifier: String = String(describing: self), owner: Any) -> Self {
+//
+//        let itemIdentifier = NSUserInterfaceItemIdentifier(rawValue: identifier);
+//        var view = tableView.makeView(withIdentifier: itemIdentifier, owner: self) as? Self
+//        if view == nil {
+//            view = Self.init()
+//            view!.identifier = itemIdentifier;
+//        }
+//        view!.wantsLayer = true;
+//        return view!;
+//    }
     
     func udpateSelectionHighlight() {
         textField?.textColor = backgroundStyle == .dark ? NSColor.white : NSColor.black;

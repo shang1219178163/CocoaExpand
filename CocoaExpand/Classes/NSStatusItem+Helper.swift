@@ -16,7 +16,7 @@ import Cocoa
         if imageName != nil && (NSImage(named: imageName!) != nil) {
             image = NSImage(named: imageName!)!
         }
-        
+
         let statusItem: NSStatusItem = {
             let item = NSStatusBar.system.statusItem(withLength: -2)
             item.button?.cell?.isHighlighted = false;

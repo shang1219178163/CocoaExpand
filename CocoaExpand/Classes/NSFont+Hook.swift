@@ -19,7 +19,7 @@ import Cocoa
                 let oriSel0 = #selector(systemFont(ofSize:))
                 let repSel0 = #selector(hook_systemFont(ofSize:))
                 
-                let _ = swizzleMethodInstance(NSImageView.self, origSel: oriSel0, replSel: repSel0);
+                let _ = swizzleMethodInstance(NSFont.self, origSel: oriSel0, replSel: repSel0);
                 
             }
         }

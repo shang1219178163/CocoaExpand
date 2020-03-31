@@ -249,6 +249,21 @@ public let kDesMonth = "正月, 二月, 三月, 四月, 五月, 六月, 七月, 
 /// 一月31天
 public let kDesDay   = "初一, 初二, 初三, 初四, 初五, 初六, 初七, 初八, 初九, 初十,十一, 十二, 十三, 十四, 十五, 十六, 十七, 十八, 十九, 二十, 廿一, 廿二, 廿三, 廿四, 廿五, 廿六, 廿七, 廿八, 廿九, 三十, 三十一";
 
+/// 回车键
+public let kInsertNewline   = "insertNewline:";
+/// 回退键
+public let kDeleteBackward  = "deleteBackward:";
+/// tab键
+public let kInsertTab       = "insertTab:";
+/// 上方向键
+public let kMoveUp          = "moveUp:";
+/// 下方向键
+public let kMoveDown        = "moveDown:";
+/// 左方向键
+public let kMoveLeft        = "moveLeft:";
+/// 右方向键
+public let kMoveRight       = "moveRight:";
+
 //MARK: - 其他
 
 /// Debug模式日志打印

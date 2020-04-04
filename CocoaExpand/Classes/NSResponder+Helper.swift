@@ -9,6 +9,7 @@
 import Cocoa
 
 public extension NSResponder {
+    /// 鼠标状态
     @objc enum MouseState: Int {
         case down = 0
         case up = 1

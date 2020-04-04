@@ -39,5 +39,18 @@ import Cocoa
             objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
     }
+    /// 新增子控制器
+    func addChildVC(_ controller: NSViewController) {
+        controller.view.frame = self.view.bounds
+        self.addChild(controller)
+//        controller.didMove(toParent: self)
+        self.view.addSubview(controller.view)
+    }
+    
+    /// 控制器移除
+    func removeChildVC() {
+        self.view.removeFromSuperview()
+        self.removeFromParent()
+    }
     
 }

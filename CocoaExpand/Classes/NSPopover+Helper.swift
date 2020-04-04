@@ -13,7 +13,7 @@ import Cocoa
 
     static func create(controller: NSViewController) -> Self {
         let popover: NSPopover = self.init()
-        popover.appearance = NSAppearance(named: .aqua)
+        popover.appearance = NSAppearance(named: .vibrantLight)
         popover.behavior = .transient
         popover.contentViewController = controller;
         /**
@@ -34,6 +34,9 @@ import Cocoa
     }
     
     func show(_ view: NSView, preferredEdge: NSRectEdge) {
-        self.show(relativeTo: view.bounds, of: view, preferredEdge: preferredEdge)
+        if isShown == true {
+            close()
+        }
+        show(relativeTo: view.bounds, of: view, preferredEdge: preferredEdge)
     }
 }

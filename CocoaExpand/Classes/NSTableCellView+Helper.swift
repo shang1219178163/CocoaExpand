@@ -16,7 +16,7 @@ import Cocoa
         if let view = tableView.makeView(withIdentifier: itemIdentifier, owner: owner) as? Self {
             return view;
         }
-        let cellView = Self.init()
+        let cellView = self.init()
         cellView.identifier = itemIdentifier;
         cellView.wantsLayer = true;
         return cellView;
@@ -27,7 +27,7 @@ import Cocoa
 //        let itemIdentifier = NSUserInterfaceItemIdentifier(rawValue: identifier);
 //        var view = tableView.makeView(withIdentifier: itemIdentifier, owner: self) as? Self
 //        if view == nil {
-//            view = Self.init()
+//            view = self.init()
 //            view!.identifier = itemIdentifier;
 //        }
 //        view!.wantsLayer = true;
@@ -43,11 +43,12 @@ import Cocoa
 public extension NSTableView {
     /// makeView
     final func makeView<T: NSTableCellView>(for cellType: T.Type, identifier: String = String(describing: T.self), style: NSTableView.RowSizeStyle = .default) -> T {
-        if let view: NSTableCellView = makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: identifier), owner: T.self) as? T {
+        let itemIdentifier = NSUserInterfaceItemIdentifier(rawValue: identifier);
+        if let view: NSTableCellView = makeView(withIdentifier: itemIdentifier, owner: T.self) as? T {
             return view as! T;
         }
         let cellView = T.init()
-        cellView.identifier = NSUserInterfaceItemIdentifier(rawValue: identifier);
+        cellView.identifier = itemIdentifier;
         cellView.wantsLayer = true;
         return cellView;
     }

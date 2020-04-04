@@ -24,36 +24,53 @@ import Cocoa
     }
 
     static func create(_ rect: CGRect = NSWindow.defaultRect, controller: NSViewController) -> Self {
-        let window = Self.create(rect, title: controller.title ?? "")
+        let window = self.create(rect, title: controller.title ?? "")
         window.contentViewController = controller;
         return window;
     }
     
     static func createMain(_ rect: CGRect = NSWindow.defaultRect, title: String = NSApplication.appName) -> Self {
-        let window = Self.create(rect, title: title)
+        let window = self.create(rect, title: title)
         window.contentMinSize = window.frame.size;
         window.makeKeyAndOrderFront(self)
         window.center()
         return window;
     }
+    
+    /// 下拉弹窗
+    static func showSheet(with controller: NSViewController, size: CGSize, handler: ((NSApplication.ModalResponse) -> Void)? = nil) {
+        controller.preferredContentSize = size
+        let rect = CGRectMake(0, 0, size.width, size.height)
+
+        let window = self.create(rect, controller: controller)
+        NSApp.mainWindow?.beginSheet(window, completionHandler: handler)
+    }
+    /// 下拉弹窗关闭
+    static func endSheet(with controller: NSViewController, response: NSApplication.ModalResponse) {
+        guard let window = controller.view.window else { return }
+//        if window.isMember(of: Self.classForCoder()) == true {
+//            view.window?.orderOut(self)
+            NSApp.mainWindow?.endSheet(window, returnCode: response)
+//        }
+    }
 }
 
 @objc public extension NSPanel {
 
-    /// 下拉弹窗
-    static func show(with controller: NSViewController, size: CGSize, handler: ((NSApplication.ModalResponse) -> Void)? = nil) {
-        controller.preferredContentSize = size
-        let rect = CGRectMake(0, 0, size.width, size.height)
-
-        let panel = Self.create(rect, controller: controller)
-        NSApp.mainWindow?.beginSheet(panel, completionHandler: handler)
-    }
-    /// 下拉弹窗关闭
-    static func end(with controller: NSViewController, response: NSApplication.ModalResponse) {
-        guard let window = controller.view.window else { return }
-        if window.isMember(of: Self.classForCoder()) == true {
-//            view.window?.orderOut(self)
-            NSApp.mainWindow?.endSheet(window, returnCode: response)
-        }
-    }
+//    /// 下拉弹窗
+//    static func show(with controller: NSViewController, size: CGSize, handler: ((NSApplication.ModalResponse) -> Void)? = nil) {
+//        controller.preferredContentSize = size
+//        let rect = CGRectMake(0, 0, size.width, size.height)
+//
+//        let panel = Self.create(rect, controller: controller)
+//        NSApp.mainWindow?.beginSheet(panel, completionHandler: handler)
+//    }
+//    /// 下拉弹窗关闭
+//    static func end(with controller: NSViewController, response: NSApplication.ModalResponse) {
+//        guard let window = controller.view.window else { return }
+//        if window.isMember(of: Self.classForCoder()) == true {
+////            view.window?.orderOut(self)
+//            NSApp.mainWindow?.endSheet(window, returnCode: response)
+//        }
+//    }
 }

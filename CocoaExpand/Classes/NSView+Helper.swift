@@ -153,14 +153,15 @@ import Cocoa
     }
     
     /// 插入模糊背景
-    @available(OSX 10.14, *)
     public func addVisualEffectView(_ rect: CGRect = .zero) -> NSVisualEffectView {
         let tmpRect = CGRect.zero.equalTo(rect) == false ? rect : self.bounds;
         let effectView = NSVisualEffectView(frame: tmpRect)
         effectView.blendingMode = .behindWindow
-        effectView.material = .underWindowBackground
         effectView.state = .active
 //        effectView.appearance = NSAppearance(named: .vibrantDark)
+        if #available(OSX 10.14, *) {
+            effectView.material = .underWindowBackground
+        }
         addSubview(effectView)
         return effectView;
     }

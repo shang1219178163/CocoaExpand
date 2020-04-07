@@ -8,7 +8,7 @@
 
 import Cocoa
 
-@available(OSX 10.9, *)
+
 @objc public extension NSStackView {
 
     static func create(_ rect: CGRect, spacing: CGFloat = 10.0) -> Self {

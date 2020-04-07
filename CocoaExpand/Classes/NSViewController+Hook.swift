@@ -35,7 +35,7 @@ import Cocoa
 //    }
     
     private func hook_present(_ viewController: NSViewController, asPopoverRelativeTo positioningRect: NSRect, of positioningView: NSView, preferredEdge: NSRectEdge, behavior: NSPopover.Behavior){
-        if presentedViewControllers?.count != 0 {
+        if viewController.presentingViewController != nil {
             dismiss(viewController)
             return
         }

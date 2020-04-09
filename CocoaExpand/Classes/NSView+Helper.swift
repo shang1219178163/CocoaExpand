@@ -165,4 +165,15 @@ import Cocoa
         addSubview(effectView)
         return effectView;
     }
+    
+    ///手势 - 轻点 UITapGestureRecognizer
+    public func addGestureClick(_ action: @escaping (NSClickGestureRecognizer) -> Void) -> NSClickGestureRecognizer {
+        let obj = NSClickGestureRecognizer()
+        addGestureRecognizer(obj)
+
+        obj.addAction { (recognizer) in
+            action(recognizer as! NSClickGestureRecognizer)
+        }
+        return obj
+    }
 }

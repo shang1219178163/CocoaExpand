@@ -10,6 +10,21 @@ import Cocoa
 
 @objc public extension NSView {
 
+    ///视图方向(上左下右)
+    enum Direction: Int {
+        case top
+        case left
+        case bottom
+        case right
+    }
+
+    ///视图角落(左上,左下,右上,右下)
+    enum Location: Int {
+        case leftTop
+        case leftBottom
+        case rightTop
+        case rightBottom
+    }
     
     var center: CGPoint {
         get {

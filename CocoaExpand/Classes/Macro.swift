@@ -207,6 +207,11 @@ public let kIDCardFailed         = "身份证识别失败,请稍后再试";
 /// 身份证识别成功
 public let kIDCardSuccess        = "身份证识别成功";
 
+
+/// 显示
+public let kTitleShow    = "显示";
+/// 隐藏
+public let kTitleHide    = "隐藏";
 /// 重置
 public let kTitleDefault = "重置";
 /// 知道了

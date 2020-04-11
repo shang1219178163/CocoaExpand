@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import ServiceManagement
 
 @objc public extension NSApplication{
     
@@ -106,102 +107,6 @@ import Cocoa
         return result;
     }
     
-//    ///默认风格是白色导航栏黑色标题
-//    static func setupAppearanceDefault(_ isDefault: Bool = true) {
-//        let barTintColor: UIColor = isDefault ? UIColor.white : UIColor.theme
-//        setupAppearanceNavigationBar(barTintColor)
-//        setupAppearanceScrollView()
-//        setupAppearanceOthers();
-//    }
-//
-//    /// 配置UIScrollView默认值
-//    static func setupAppearanceScrollView() {
-//        UITableView.appearance().separatorStyle = .singleLine;
-//        UITableView.appearance().separatorInset = .zero;
-//        UITableView.appearance().rowHeight = 60;
-//
-//        UITableViewCell.appearance().layoutMargins = .zero;
-//        UITableViewCell.appearance().separatorInset = .zero;
-//        UITableViewCell.appearance().selectionStyle = .none;
-//
-//        UIScrollView.appearance().keyboardDismissMode = .onDrag;
-//
-//        if #available(iOS 11.0, *) {
-//            UITableView.appearance().estimatedRowHeight = 0.0;
-//            UITableView.appearance().estimatedSectionHeaderHeight = 0.0;
-//            UITableView.appearance().estimatedSectionFooterHeight = 0.0;
-//
-//            UICollectionView.appearance().contentInsetAdjustmentBehavior = .never;
-//            UIScrollView.appearance().contentInsetAdjustmentBehavior = .never;
-//        }
-//    }
-//
-//    static func setupAppearanceOthers() {
-//        UIButton.appearance().isExclusiveTouch = false;
-//
-//        UITabBar.appearance().tintColor = UIColor.theme;
-//        UITabBar.appearance().barTintColor = UIColor.white;
-//        UITabBar.appearance().isTranslucent = false;
-//
-//        if #available(iOS 10.0, *) {
-//            UITabBar.appearance().unselectedItemTintColor = UIColor.gray;
-//        }
-//        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -5.0)
-//
-//    }
-//
-//    /// 配置UINavigationBar默认值
-//    static func setupAppearanceNavigationBar(_ barTintColor: UIColor) {
-//        let isDefault: Bool = UIColor.white.equalTo(barTintColor);
-//        let tintColor = isDefault ? UIColor.black : UIColor.white;
-//
-//        UINavigationBar.appearance().tintColor = tintColor;
-//        UINavigationBar.appearance().barTintColor = barTintColor;
-//        UINavigationBar.appearance().setBackgroundImage(UIImageColor(barTintColor), for: UIBarPosition.any, barMetrics: .default)
-//        UINavigationBar.appearance().shadowImage = UIImageColor(barTintColor);
-//
-//        let attDic = [NSAttributedString.Key.foregroundColor :   tintColor,
-////                      NSAttributedString.Key.font    :   UIFont.boldSystemFont(ofSize:18)
-//                    ];
-//        UINavigationBar.appearance().titleTextAttributes = attDic;
-////
-////        let dicNomal = [NSAttributedString.Key.foregroundColor: UIColor.white,
-////        ]
-////        UIBarButtonItem.appearance().setTitleTextAttributes(dicNomal, for: .normal)
-//    }
-//
-//    static func setupAppearanceTabBar() {
-//        //         设置字体颜色
-////        let attDic_N = [NSAttributedString.Key.foregroundColor: UIColor.black];
-////        let attDic_H = [NSAttributedString.Key.foregroundColor: UIColor.theme];
-////        UITabBarItem.appearance().setTitleTextAttributes(attDic_N, for: .normal);
-////        UITabBarItem.appearance().setTitleTextAttributes(attDic_H, for: .selected);
-////        // 设置字体偏移
-////        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -5.0);
-//        // 设置图标选中时颜色
-////        UITabBar.appearance().tintColor = .red;
-//    }
-//
-//    @available(iOS 9.0, *)
-//    static func setupAppearanceSearchbarCancellButton(_ textColor: UIColor = .theme) {
-//        let shandow: NSShadow = {
-//            let shadow = NSShadow();
-//            shadow.shadowColor = UIColor.darkGray;
-//            shadow.shadowOffset = CGSize(width: 0, height: -1);
-//            return shadow;
-//        }();
-//
-//        let dic: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor:  textColor,
-//                                                  NSAttributedString.Key.font:  UIFont.systemFont(ofSize: 13),
-//                                                  NSAttributedString.Key.shadow:  shandow,
-//        ]
-//        UIBarButtonItem.appearance().setTitleTextAttributes(dic, for: .normal)
-//        UIBarButtonItem.appearance().setTitleTextAttributes(dic, for: .highlighted)
-//        UIBarButtonItem.appearance().setTitleTextAttributes(dic, for: .selected)
-//
-//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self])
-//    }
-    
     /// http/https请求链接
     func isNormalURL(_ url: NSURL) -> Bool {
         guard let scheme = url.scheme else {
@@ -259,4 +164,20 @@ import Cocoa
         }
         NSApplication.shared.applicationIconImage = NSImage(named: name!)
     }
+    
+    /// 开机启动项
+    static func loginAutoLaunch(enabled: Bool) {
+        let identifier: String = NSApplication.appBundleName
+        if SMLoginItemSetEnabled(identifier as CFString, enabled) {
+          if enabled {
+            NSLog("Successfully add login item.")
+          } else {
+            NSLog("Successfully remove login item.")
+          }
+          
+        } else {
+          NSLog("Failed to add login item.")
+        }
+    }
+
 }

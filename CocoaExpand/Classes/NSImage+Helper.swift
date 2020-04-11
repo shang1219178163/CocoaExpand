@@ -39,7 +39,7 @@ import Cocoa
         }
         
         let toRect = NSRect(x: 0, y: 0, width: toSize.width, height: toSize.height)
-        let fromRect =  NSRect(x: 0, y: 0, width: size.width, height: size.height)
+        let fromRect = NSRect(x: 0, y: 0, width: size.width, height: size.height)
         
         let newImage = NSImage(size: toRect.size)
         newImage.lockFocus()

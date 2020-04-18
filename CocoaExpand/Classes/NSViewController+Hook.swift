@@ -10,21 +10,24 @@ import Cocoa
 
 @objc public extension NSViewController{
     override class func initializeMethod() {
-        super.initializeMethod();
-        if self == NSViewController.self {
-            let onceToken = "Method Swizzling_\(NSStringFromClass(classForCoder()))";
-            //DispatchQueue函数保证代码只被执行一次，防止又被交换回去导致得不到想要的效果
-            DispatchQueue.once(token: onceToken) {
-                let oriSel0 = #selector(present(_:asPopoverRelativeTo:of:preferredEdge:behavior:))
-                let repSel0 = #selector(hook_present(_:asPopoverRelativeTo:of:preferredEdge:behavior:))
-                let _ = swizzleMethodInstance(NSFont.self, origSel: oriSel0, replSel: repSel0);
-                
-//                let oriSel1 = #selector(dismiss(_:))
-//                let repSel1 = #selector(hook_dismiss(_:))
-//                let _ = swizzleMethodInstance(NSFont.self, origSel: oriSel1, replSel: repSel1);
-                
-            }
+        super.initializeMethod()
+        
+        if self != NSViewController.self {
+            return
         }
+        
+        let onceToken = "Hook_\(NSStringFromClass(classForCoder()))";
+        //DispatchQueue函数保证代码只被执行一次，防止又被交换回去导致得不到想要的效果
+        DispatchQueue.once(token: onceToken) {
+            let oriSel = #selector(present(_:asPopoverRelativeTo:of:preferredEdge:behavior:))
+            let repSel = #selector(hook_present(_:asPopoverRelativeTo:of:preferredEdge:behavior:))
+            _ = swizzleMethodInstance(NSFont.self, origSel: oriSel, replSel: repSel);
+            
+//            let oriSel1 = #selector(dismiss(_:))
+//            let repSel1 = #selector(hook_dismiss(_:))
+//            _ = swizzleMethodInstance(NSFont.self, origSel: oriSel1, replSel: repSel1);
+        }
+        
     }
     
 //    private func hook_dismiss(_ viewController: NSViewController){

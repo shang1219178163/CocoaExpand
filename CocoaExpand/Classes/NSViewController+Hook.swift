@@ -17,7 +17,6 @@ import Cocoa
         }
         
         let onceToken = "Hook_\(NSStringFromClass(classForCoder()))";
-        //DispatchQueue函数保证代码只被执行一次，防止又被交换回去导致得不到想要的效果
         DispatchQueue.once(token: onceToken) {
             let oriSel = #selector(present(_:asPopoverRelativeTo:of:preferredEdge:behavior:))
             let repSel = #selector(hook_present(_:asPopoverRelativeTo:of:preferredEdge:behavior:))

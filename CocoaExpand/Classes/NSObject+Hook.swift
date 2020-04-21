@@ -10,8 +10,9 @@ import Cocoa
 
 @objc public extension NSObject{
     /// 实例方法替换
-    static func swizzleMethodInstance(_ clz: AnyClass, origSel: Selector, replSel: Selector) -> Bool {
-        
+    static func hookInstanceMethod(of origSel: Selector, with replSel: Selector) -> Bool {
+        let clz: AnyClass = classForCoder();
+
         let oriMethod = class_getInstanceMethod(clz, origSel);
         let repMethod = class_getInstanceMethod(clz, replSel);
         if oriMethod == nil ||  repMethod == nil {
@@ -30,8 +31,8 @@ import Cocoa
     }
     
     /// 类方法替换
-    static func swizzleMethodClass(_ origSel: Selector, replSel: Selector) -> Bool {
-        let clz:AnyClass = classForCoder();
+    static func hookClassMethod(of origSel: Selector, with replSel: Selector) -> Bool {
+        let clz: AnyClass = classForCoder();
 
         let oriMethod = class_getClassMethod(clz, origSel);
         let repMethod = class_getClassMethod(clz, replSel);
@@ -62,19 +63,19 @@ import Cocoa
         DispatchQueue.once(token: onceToken) {
             let oriSel = #selector(self.setValue(_:forUndefinedKey:))
             let repSel = #selector(self.hook_setValue(_:forUndefinedKey:))
-            _ = swizzleMethodInstance(NSObject.self, origSel: oriSel, replSel: repSel);
+            _ = hookInstanceMethod(of: oriSel, with: repSel);
             
             let oriSel0 = #selector(self.value(forUndefinedKey:))
             let repSel0 = #selector(self.hook_value(forUndefinedKey:))
-            _ = swizzleMethodInstance(NSObject.self, origSel: oriSel0, replSel: repSel0);
+            _ = hookInstanceMethod(of: oriSel0, with: repSel0);
             
             let oriSel1 = #selector(self.setNilValueForKey(_:))
             let repSel1 = #selector(self.hook_setNilValueForKey(_:))
-            _ = swizzleMethodInstance(NSObject.self, origSel: oriSel1, replSel: repSel1);
+            _ = hookInstanceMethod(of: oriSel1, with: repSel1);
             
             let oriSel2 = #selector(self.setValuesForKeys(_:))
             let repSel2 = #selector(self.hook_setValuesForKeys(_:))
-            _ = swizzleMethodInstance(NSObject.self, origSel: oriSel2, replSel: repSel2);
+            _ = hookInstanceMethod(of: oriSel2, with: repSel2);
         }
 
     }

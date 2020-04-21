@@ -20,8 +20,7 @@ import Cocoa
         DispatchQueue.once(token: onceToken) {
             let oriSel = #selector(systemFont(ofSize:))
             let repSel = #selector(hook_systemFont(ofSize:))
-            _ = swizzleMethodInstance(NSFont.self, origSel: oriSel, replSel: repSel)
-            
+            _ = hookInstanceMethod(of: oriSel, with: repSel);
         }
     }
     

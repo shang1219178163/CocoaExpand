@@ -20,11 +20,11 @@ import Cocoa
         DispatchQueue.once(token: onceToken) {
             let oriSel = #selector(present(_:asPopoverRelativeTo:of:preferredEdge:behavior:))
             let repSel = #selector(hook_present(_:asPopoverRelativeTo:of:preferredEdge:behavior:))
-            _ = swizzleMethodInstance(NSFont.self, origSel: oriSel, replSel: repSel);
+            _ = hookInstanceMethod(of: oriSel, with: repSel)
             
 //            let oriSel1 = #selector(dismiss(_:))
 //            let repSel1 = #selector(hook_dismiss(_:))
-//            _ = swizzleMethodInstance(NSFont.self, origSel: oriSel1, replSel: repSel1);
+//            _ = hookInstanceMethod(of: oriSel1, with: repSel1)
         }
         
     }

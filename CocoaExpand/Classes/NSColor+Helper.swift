@@ -15,16 +15,16 @@ import Cocoa
         return self.withAlphaComponent(a)
     }
 
-    static func RGBA(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, _ a: CGFloat = 1.0) -> NSColor{
+    static func RGBA(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, a: CGFloat = 1.0) -> NSColor{
         return NSColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a)
     }
 
     /// [源]0x开头的16进制Int数字(无#前缀十六进制数表示，开头就是0x)
-    static func hexValue(_ hex: Int, _ a: CGFloat = 1.0) -> NSColor {
+    static func hexValue(_ hex: Int, a: CGFloat = 1.0) -> NSColor {
         return NSColor(red: CGFloat((hex & 0xFF0000) >> 16)/255.0, green: CGFloat((hex & 0xFF00) >> 8)/255.0, blue: CGFloat(hex & 0xFF)/255.0, alpha: a)
     }
 
-    static func dim(_ white: CGFloat, _ a: CGFloat = 1.0) -> NSColor{
+    static func dim(_ white: CGFloat, a: CGFloat = 1.0) -> NSColor{
         return .init(white: white, alpha: a);
     }
     
@@ -79,6 +79,10 @@ import Cocoa
     /// 浅绿
     static var lightGreen: NSColor {
         return NSColor.hexValue(0x1AC756);
+    }
+    /// 浅红
+    static var lightRed: NSColor {
+        return NSColor.hexValue(0xFA6D5B);
     }
     
     static var textColor3: NSColor {

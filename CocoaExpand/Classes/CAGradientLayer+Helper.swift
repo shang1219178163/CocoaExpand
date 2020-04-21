@@ -31,14 +31,14 @@ import Cocoa
     
     /// 0x开头的十六进制数字
     static func gradientColorHexValue(_ from: Int, fromAlpha: CGFloat, to: Int, toAlpha: CGFloat = 1.0) -> [Any] {
-        return [NSColor.hexValue(from, fromAlpha).cgColor, NSColor.hexValue(to, toAlpha).cgColor]
+        return [NSColor.hexValue(from, a: fromAlpha).cgColor, NSColor.hexValue(to, a: toAlpha).cgColor]
     }
     
     static var defaultColors: [Any] {
         get {
             var obj = objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as? [Any];
             if obj == nil {
-                obj = [NSColor.hexValue(0x6cda53, 0.9).cgColor, NSColor.hexValue(0x1a965a, 0.9).cgColor]
+                obj = [NSColor.hexValue(0x6cda53, a: 0.9).cgColor, NSColor.hexValue(0x1a965a, a: 0.9).cgColor]
                 objc_setAssociatedObject(self, RuntimeKeySelector(#function), obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             }
             return obj!;

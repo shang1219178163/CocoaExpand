@@ -10,22 +10,16 @@ import Cocoa
 
 @objc public extension NSColor{
     
-    /// 获取某种颜色Alpha下的色彩
-    func alpha(_ a: CGFloat = 1.0) -> NSColor{
-        return self.withAlphaComponent(a)
+    convenience init(r: Int = 0, g: Int = 0, b: Int = 0, a: CGFloat = 1) {
+         assert(r >= 0 && r <= 255, "Invalid red component")
+         assert(g >= 0 && g <= 255, "Invalid green component")
+         assert(b >= 0 && b <= 255, "Invalid blue component")
+         self.init(red: CGFloat(r)/255, green: CGFloat(g)/255, blue: CGFloat(b)/255, alpha: a)
     }
-
-    static func RGBA(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, a: CGFloat = 1.0) -> NSColor{
-        return NSColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a)
-    }
-
+    
     /// [源]0x开头的16进制Int数字(无#前缀十六进制数表示，开头就是0x)
     static func hexValue(_ hex: Int, a: CGFloat = 1.0) -> NSColor {
         return NSColor(red: CGFloat((hex & 0xFF0000) >> 16)/255.0, green: CGFloat((hex & 0xFF00) >> 8)/255.0, blue: CGFloat(hex & 0xFF)/255.0, alpha: a)
-    }
-
-    static func dim(_ white: CGFloat, a: CGFloat = 1.0) -> NSColor{
-        return .init(white: white, alpha: a);
     }
     
     //MARK: - -属性
@@ -47,6 +41,12 @@ import Cocoa
     static var background: NSColor {
         return NSColor.hexValue(0xe9e9e9);
     }
+    
+    /// 半透明蒙版
+    static var dim: NSColor {
+        return NSColor(white: 0, alpha: 0.2)
+    }
+    
     /// 线条默认颜色(同cell分割线颜色)
     static var line: NSColor {
 //        return NSColor.hexValue(0xe0e0e0);

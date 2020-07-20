@@ -11,7 +11,6 @@ import Cocoa
 @objc public extension NSStatusItem {
 
     static func create(imageName: String?) -> NSStatusItem {
-        
         var image = NSApplication.appIcon.resize(CGSize(width: 40, height: 30), isPixels: true);
         if imageName != nil && (NSImage(named: imageName!) != nil) {
             image = NSImage(named: imageName!)!

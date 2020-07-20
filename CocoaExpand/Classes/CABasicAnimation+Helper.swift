@@ -8,15 +8,6 @@
 
 import QuartzCore
 
-/// kCAMediaTimingFunction集合
-public let kFunctionNames = [
-                            CAMediaTimingFunctionName.linear,//匀速
-                            CAMediaTimingFunctionName.easeIn,//先慢
-                            CAMediaTimingFunctionName.easeOut,//后慢
-                            CAMediaTimingFunctionName.easeInEaseOut,//先慢 后慢 中间快
-                            CAMediaTimingFunctionName.default//默认
-                            ];
-
 @objc public extension CABasicAnimation{
     
     /// [源]CABasicAnimation

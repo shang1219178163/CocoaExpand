@@ -102,24 +102,21 @@ import Cocoa
         return frame.maxY
     }
     /// 图层调试
-    public func getViewLayer(_ lineColor: NSColor = .blue) {
+    public func getViewLayer() {
+
         let subviews = self.subviews;
         if subviews.count == 0 {
             return;
         }
         for subview in subviews {
-            subview.layer?.borderWidth = kW_LayerBorder;
-            subview.layer?.borderColor = lineColor.cgColor;
- //            subview.layer?.borderColor = UIColor.clear.cgColor;
-
+            subview.layer?.borderWidth = kW_LayerBorder
+            subview.layer?.borderColor = NSColor.clear.cgColor
+            #if DEBUG
+            subview.layer?.borderColor = NSColor.blue.cgColor
+            #endif
             subview.getViewLayer();
          }
      }
-    /// 图层调试(兼容OC)
-    public func getViewLayer() {
-        getViewLayer(.blue)
-    }
-    
     /// 寻找子视图
     public func findSubview(type: NSResponder.Type, resursion: Bool)-> NSView? {
         for e in self.subviews.enumerated() {

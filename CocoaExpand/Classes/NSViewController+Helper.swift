@@ -10,47 +10,17 @@ import Cocoa
 
 @objc public extension NSViewController {
 
-//    var tbView: NSTableView {
-//        get {
-//            var obj = objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as? NSTableView;
-//            if obj == nil {
-//                obj = NSTableView.create(view.bounds);
-//
-//                objc_setAssociatedObject(self, RuntimeKeySelector(#function), obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//            }
-//            return obj!;
-//        }
-//        set {
-//            objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//        }
-//    }
-    
-    /// 关联NSMutableArray 数据容器
-//    var dataList: NSMutableArray {
-//        get {
-//            var obj = objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as? NSMutableArray;
-//            if obj == nil {
-//                obj = [];
-//                objc_setAssociatedObject(self, RuntimeKeySelector(#function), obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//            }
-//            return obj!;
-//        }
-//        set {
-//            objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//        }
-//    }
     /// 新增子控制器
     func addChildVC(_ controller: NSViewController) {
         controller.view.frame = self.view.bounds
-        self.addChild(controller)
-//        controller.didMove(toParent: self)
-        self.view.addSubview(controller.view)
+        addChild(controller)
+        view.addSubview(controller.view)
     }
     
     /// 控制器移除
     func removeChildVC() {
-        self.view.removeFromSuperview()
-        self.removeFromParent()
+        view.removeFromSuperview()
+        removeFromParent()
     }
     
 }

@@ -10,6 +10,7 @@
 import Cocoa
 
 @objc public extension NSObject{
+
     /// 动态属性关联key
     var runtimeKey: UnsafeRawPointer {
         get {
@@ -19,67 +20,108 @@ import Cocoa
             objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
     }
-    
+
     /// 类的字符串名称
-    static var identifier: String {
-        get {
-            var obj = objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as? String;
-            if obj == nil {
-                obj = String(describing: self);// return "\(type(of: self))" //NSStringFromClass(self.classForCoder())
-                objc_setAssociatedObject(self, RuntimeKeySelector(#function), obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-            }
-            return obj!;
+//    static let identifier = String(describing: self)
+//    static let identifier = String(describing: self)
+    static var identifier: String{
+        return String(describing: self)
+    }
+
+    ///遍历成员变量列表
+    func enumerateIvars(_ block: @escaping ((Ivar, String, Any?)->Void)) {
+        var count: UInt32 = 0
+        guard let list = class_copyIvarList(self.classForCoder, &count) else { return }
+        defer {
+            free(list)// 释放c语言对象
         }
-        set {
-            objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+        for i in 0..<Int(count) {
+            let ivar = list[i]
+            //转换成String字符串
+            guard let name = ivar_getName(ivar),
+                let strName = String(cString: name, encoding: String.Encoding.utf8) else {
+                //继续下一次遍历
+                continue
+            }
+            //利用kvc 取值
+            let value = self.value(forKey: strName)
+            block(ivar, strName, value)
+        }
+    }
+    ///遍历属性列表
+    func enumeratePropertys(_ block: @escaping ((objc_property_t, String, Any?)->Void)) {
+        var count: UInt32 = 0
+        guard let list = class_copyPropertyList(self.classForCoder, &count) else { return }
+        defer {
+            free(list)// 释放c语言对象
+        }
+        
+        for i in 0..<Int(count) {
+            let property: objc_property_t = list[i]
+            //获取成员变量的名称 -> c语言字符串
+            let name = property_getName(property)
+            //转换成String字符串
+            guard let strName = String(cString: name, encoding: String.Encoding.utf8) else {
+                //继续下一次遍历
+                continue
+            }
+            //利用kvc 取值
+            let value = self.value(forKey: strName)
+            block(property, strName, value)
+        }
+    }
+    ///遍历方法列表
+    func enumerateMethods(_ block: @escaping ((Method, String)->Void)) {
+        var count: UInt32 = 0
+        guard let list = class_copyMethodList(self.classForCoder, &count) else { return }
+        defer {
+            free(list)// 释放c语言对象
+        }
+
+        for i in 0..<Int(count) {
+            let method: Method = list[i]
+            //获取成员变量的名称 -> c语言字符串
+            let name: Selector = method_getName(method)
+            //转换成String字符串
+            let strName = NSStringFromSelector(name)
+            block(method, strName)
+        }
+    }
+    ///遍历遵循的协议列表
+    func enumerateProtocols(_ block: @escaping ((Protocol, String)->Void)) {
+        var count: UInt32 = 0
+        guard let list = class_copyProtocolList(self.classForCoder, &count) else { return }
+
+        for i in 0..<Int(count) {
+            let proto: Protocol = list[i]
+            //获取成员变量的名称 -> c语言字符串
+            let name = protocol_getName(proto)
+            //转换成String字符串
+            guard let strName = String(cString: name, encoding: String.Encoding.utf8) else {
+                //继续下一次遍历
+                continue
+            }
+            block(proto, strName)
         }
     }
 
     /// 模型自动编码
     func se_encode(with aCoder: NSCoder) {
-        var count: UInt32 = 0
-        if let ivar = class_copyIvarList(self.classForCoder, &count) {
-            for i in 0..<Int(count) {
-                let iv = ivar[i]
-                //获取成员变量的名称 -> c语言字符串
-                if let cName = ivar_getName(iv) {
-                    //转换成String字符串
-                    guard let strName = String(cString: cName, encoding: String.Encoding.utf8) else{
-                        //继续下一次遍历
-                        continue
-                    }
-                    //利用kvc 取值
-                    let value = self.value(forKey: strName)
-                    aCoder.encode(value, forKey: strName)
-                }
-            }
-            // 释放c语言对象
-            free(ivar)
+        enumeratePropertys { (property, name, value) in
+            guard let value = self.value(forKey: name) else { return }
+            //进行编码
+            aCoder.encode(value, forKey: name)
         }
     }
     
     /// 模型自动解码
     func se_decode(with aDecoder: NSCoder) {
-        //        super.init()
-        var count: UInt32 = 0
-        if let ivar = class_copyIvarList(self.classForCoder, &count) {
-            for i in 0..<Int(count) {
-                let iv = ivar[i]
-                //获取成员变量的名称 -》 c语言字符串
-                if let cName = ivar_getName(iv) {
-                    //转换成String字符串
-                    guard let strName = String(cString: cName, encoding: String.Encoding.utf8) else{
-                        //继续下一次遍历
-                        continue
-                    }
-                    //进行解档取值
-                    let value = aDecoder.decodeObject(forKey: strName)
-                    //利用kvc给属性赋值
-                    setValue(value, forKeyPath: strName)
-                }
-            }
-            // 释放c语言对象
-            free(ivar)
+        enumeratePropertys { (property, name, value) in
+            //进行解档取值
+            guard let value = aDecoder.decodeObject(forKey: name) else { return }
+            //利用kvc给属性赋值
+            self.setValue(value, forKeyPath: name)
         }
     }
     /// 字典转模型
@@ -87,56 +129,41 @@ import Cocoa
         self.init();
         self.setValuesForKeys(dic)
     }
-
-    // MARK: - 数据类型转换 Data - String - Dictionary - Array
-    
-    /// NSObject->NSData
-    var jsonData: Data? {
-        var data: Data?
-        
-        switch self {
-        case is Data:
-            data = (self as! Data);
-            
-        case is NSString:
-            data = (self as! String).data(using: .utf8);
-            
-        case is NSImage:
-            data = (self as! NSImage).pngData;
-            
-        case is NSDictionary, is NSArray:
-            do {
-                data = try JSONSerialization.data(withJSONObject: self, options: []);
-            } catch {
-                print(error)
-            }
-            
-        default:
-            break;
+    ///详情模型转字典(不支持嵌套)
+    func toDictionary() -> [AnyHashable : Any] {
+//        let classType: NSObject.Type = type(of: self)
+//        var dic: [AnyHashable : Any] = [:]
+//
+//        let count = UnsafeMutablePointer<UInt32>.allocate(capacity: 1)
+//        if let properties = class_copyPropertyList(classType, count) {
+//            for i in 0 ..< count.pointee {
+//                let name = String(cString: property_getName(properties.advanced(by: Int(i)).pointee))
+//                if let propertyName = String(utf8String: name) {
+//                    let propertyValue = value(forKey: propertyName)
+//                    if propertyValue != nil {
+//                        dic[propertyName] = propertyValue
+//                    }
+//                }
+//            }
+//            free(properties)
+//        }
+        var dic: [AnyHashable : Any] = [:]
+        self.enumeratePropertys { (property, name, value) in
+            dic[name] = value ?? ""
         }
-        return data;
+        return dic
     }
     
-    /// NSObject->NSString
-    var jsonString: String {
-        return JSONSerialization.jsonStringFromObj(self);
+    func synchronized(_ lock: AnyObject, block: () -> Void) {
+        objc_sync_enter(lock)
+        block()
+        objc_sync_exit(lock)
     }
-    
-    /// NSString/NSData->NSDictionary
-    var dictValue: [String: Any]? {
-        guard let dic = self.jsonData?.objValue as? [String: Any] else { return nil }
-        return dic as [String: Any];
-    }
-    
-    /// NSString/NSData->NSArray
-    var arrayValue: [AnyObject]? {
-        guard let arr = self.jsonData?.objValue as? [AnyObject] else { return nil }
-        return arr as [AnyObject];
-    }
+            
     // MARK: - KVC
 
     /// 返回key对应的值
-    func valueText(forKey key: String, defalut: String = "--") -> String{
+    func valueText(forKey key: String, defalut: String = "-") -> String{
         if key == "" {
             return "";
         }
@@ -146,7 +173,7 @@ import Cocoa
         return defalut;
     }
     /// 返回key对应的值
-    func valueText(forKeyPath keyPath: String, defalut: String = "--") -> String{
+    func valueText(forKeyPath keyPath: String, defalut: String = "-") -> String{
         if keyPath == "" {
             return "";
         }
@@ -157,7 +184,6 @@ import Cocoa
     }
     
     // MARK: - 视图相关
-
     ///  富文本只有同字体大小才能计算高度
     func sizeWithText(_ text: String = "", font: CGFloat = 15, width: CGFloat) -> CGSize {
         let attDic = NSAttributedString.paraDict(font, textColor: .black, alignment: .left);

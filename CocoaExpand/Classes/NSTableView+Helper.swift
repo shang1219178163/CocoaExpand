@@ -27,7 +27,6 @@ import Cocoa
 //        view.headerView = nil;
 
         view.rowHeight = 70;
-
         return view as! Self;
     }
     
@@ -35,7 +34,7 @@ import Cocoa
     func addTableColumn(titles: [String]) {
       for e in titles {
           let column = NSTableColumn.create(identifier: e, title: e)
-          self.addTableColumn(column)
+          addTableColumn(column)
       }
     }
     

@@ -53,7 +53,7 @@ public let kDateFormatMinute      = "yyyy-MM-dd HH:mm";
 /// yyyy-MM-dd HH:mm:ss eee
 public let kDateFormatMillisecond = "yyyy-MM-dd HH:mm:ss eee";
 /// yyyy-MM-dd 00:00:00
-public let kDateFormatStart       = "yyyy-MM-dd 00:00:00";
+public let kDateFormatBegin       = "yyyy-MM-dd 00:00:00";
 /// yyyy-MM-dd 23:59:59
 public let kDateFormatEnd         = "yyyy-MM-dd 23:59:59";
 
@@ -69,8 +69,8 @@ public let kDateFormatTwo         = "yyyyMMdd";
     /// 获取DateFormatter(默认格式)
     static func format(_ formatStr: String = kDateFormat) -> DateFormatter {
         let dic = Thread.current.threadDictionary;
-        if dic.object(forKey: formatStr) != nil {
-            return dic.object(forKey: formatStr) as! DateFormatter;
+        if let formatter = dic.object(forKey: formatStr) as? DateFormatter {
+            return formatter
         }
         
         let fmt = DateFormatter();
@@ -78,7 +78,6 @@ public let kDateFormatTwo         = "yyyyMMdd";
         fmt.locale = .current;
         fmt.locale = Locale(identifier: "zh_CN");
         fmt.timeZone = formatStr.contains("GMT") ? TimeZone(identifier: "GMT") : TimeZone.current;
-        
         dic.setObject(fmt, forKey: formatStr as NSCopying)
         return fmt;
     }
@@ -92,7 +91,8 @@ public let kDateFormatTwo         = "yyyyMMdd";
     /// String -> Date
     static func dateFromString(_ dateStr: String, fmt: String = kDateFormat) -> Date {
         let formatter = DateFormatter.format(fmt);
-        return formatter.date(from: dateStr)!;
+        let result = formatter.date(from: dateStr);
+        return result!
     }
     
     /// 时间戳字符串 -> 日期字符串
@@ -164,11 +164,65 @@ public let kDateFormatTwo         = "yyyyMMdd";
     }
     
     /// 获取起止时间区间数组,默认往前31天
-    static func queryDate(_ day: Int = -30, fmtStart: String = kDateFormatStart, fmtEnd: String = kDateFormatEnd) -> [String] {
+    static func queryDate(_ day: Int = -30, fmtStart: String = kDateFormatBegin, fmtEnd: String = kDateFormatEnd) -> [String] {
         let endTime = DateFormatter.stringFromDate(Date(), fmt: fmtEnd)
         let date = Date().adding(day)
         let startTime = DateFormatter.stringFromDate(date, fmt: fmtStart)
         return [startTime, endTime];
+    }
+    
+    ///获取指定时间内的所有天数日期
+    static func getDateDays(_ startTime: String, endTime: String, fmt: String = kDateFormatDay, block: ((DateComponents, Date) -> Void)? = nil) -> [String] {
+        let calendar = Calendar(identifier: .gregorian)
+        
+        var startDate = DateFormatter.dateFromString(startTime, fmt: fmt)
+        let endDate = DateFormatter.dateFromString(endTime, fmt: fmt)
+
+        var days: [String] = []
+        var comps: DateComponents?
+        
+        var result = startDate.compare(endDate)
+        while result != .orderedDescending {
+            comps = calendar.dateComponents([.year, .month, .day, .weekday], from: startDate)
+            
+            let time = DateFormatter.stringFromDate(startDate, fmt: fmt)
+            days.append(time)
+
+            if comps != nil {
+                block?(comps!, startDate)
+                comps!.day! += 1
+                startDate = calendar.date(from: comps!)!
+                result = startDate.compare(endDate)
+            }
+        }
+        return days
+    }
+    ///获取指定时间内的星期值集合
+    static func getDateWeekDays(_ startTime: String, endTime: String) -> [Int] {
+        var weekdays = Set<Int>()
+        let list = DateFormatter.getDateDays(startTime, endTime: endTime, fmt: kDateFormatDay) { (components, date) in
+//            DDLog(date, components.weekday!)
+            weekdays.insert(components.weekday!)
+        }
+        if list.count < 7 {
+            let array = Array(weekdays).sorted()
+//            DDLog("weekdays:", weekdays, array)
+            return array
+        }
+        return [1, 2, 3, 4, 5, 6, 7]
+    }
+    
+    ///获取指定时间内的索引值集合(["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"])
+    static func getDateWeekDayIdxs(_ startTime: String, endTime: String) -> [Int] {
+        let list = DateFormatter.getDateWeekDays(startTime, endTime: endTime)
+        var idxList = [Int]()
+        if list.contains(1) {
+            idxList = list.filter({ $0 >= 2 }).map({ $0 - 2 })
+            idxList.append(6)
+        } else {
+            idxList = list.map({ $0 - 2 })
+        }
+        return idxList
     }
 }
 

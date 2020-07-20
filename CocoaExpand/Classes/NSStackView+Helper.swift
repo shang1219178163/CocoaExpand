@@ -19,7 +19,6 @@ import Cocoa
         //子视图的高度或宽度保持一致
 //        view.distribution = .fillEqually
         view.distribution = .fillProportionally
-
         return view as! Self;
     }
     

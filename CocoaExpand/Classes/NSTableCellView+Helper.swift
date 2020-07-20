@@ -19,7 +19,7 @@ import Cocoa
         let cellView = self.init()
         cellView.identifier = itemIdentifier;
         cellView.wantsLayer = true;
-        return cellView;
+        return cellView
     }
     
 //    static func makeView(tableView: NSTableView, identifier: String = String(describing: self), owner: Any) -> Self {

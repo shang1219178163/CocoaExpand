@@ -13,46 +13,33 @@ import Cocoa
     
     /// NSObject -> NSData
     static func dataFromObj(_ obj: AnyObject) -> Data? {
-        return obj.jsonData;
-//        var data: Data?
-//
-//        switch obj {
-//        case is Data:
-//            data = (obj as! Data);
-//
-//        case is NSString:
-//            data = (obj as! String).data(using: .utf8);
-//
-//        case is UIImage:
-//            data = (obj as! UIImage).jpegData(compressionQuality: 1.0);
-//
-//        case is NSDictionary, is NSArray:
-//            do {
-//                data = try JSONSerialization.data(withJSONObject: obj, options: []);
-//            } catch {
-//                print(error)
-//            }
-//
-//        default:
-//            break;
-//        }
-//        return data;
+        var data: Data?
+
+        switch obj {
+        case is Data:
+            data = (obj as! Data)
+
+        case is NSString:
+            data = (obj as! String).data(using: .utf8)
+
+        case is NSImage:
+            data = (obj as! NSImage).tiffRepresentation
+
+        case is NSDictionary, is NSArray:
+            do {
+                data = try JSONSerialization.data(withJSONObject: obj, options: [])
+            } catch {
+                print(error)
+            }
+        default:
+            break;
+        }
+        return data;
     }
     
     /// data -> NSObject
     static func jsonObjectFromData(_ data: Data, options opt: JSONSerialization.ReadingOptions = []) -> Any? {
         return data.objValue
-//        if JSONSerialization.isValidJSONObject(data) {
-//            return nil;
-//        }
-//        do {
-//            let obj: NSObject = try JSONSerialization.jsonObject(with: data, options: opt) as! NSObject
-//            return obj;
-//
-//        } catch {
-//            print(error)
-//        }
-//        return nil;
     }
     
     /// NSString -> NSObject/NSDiction/NSArray
@@ -73,14 +60,11 @@ import Cocoa
         assert(name.contains(".geojson") == true);
          
         let array: Array = name.components(separatedBy: ".");
-        let path = Bundle.main.path(forResource: array.first, ofType: array.last);
-        if path == nil {
-            return nil;
-        }
-         
-        guard let jsonData = try? Data(contentsOf: URL(fileURLWithPath: path!)) else { return nil}
-        guard let jsonObj = try? JSONSerialization.jsonObject(with: jsonData, options: []) else { return nil}
-        return jsonObj
+        guard let path = Bundle.main.path(forResource: array.first, ofType: array.last),
+        let jsonData = try? Data(contentsOf: URL(fileURLWithPath: path)),
+            let obj = try? JSONSerialization.jsonObject(with: jsonData, options: [])
+            else { return nil}
+        return obj
      }
     
 }

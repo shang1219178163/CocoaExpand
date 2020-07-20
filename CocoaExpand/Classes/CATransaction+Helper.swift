@@ -11,12 +11,9 @@ import QuartzCore
     
     /// [源]CATransaction动画
     static func animDuration(_ duration: CFTimeInterval, animations: (() -> Void)?, completionBlock: (() -> Void)?) {
-
         CATransaction.begin()
         CATransaction.setAnimationDuration(duration)
-        if animations != nil {
-            animations!()
-        }
+        animations?()
         CATransaction.setCompletionBlock(completionBlock)
         CATransaction.commit()
     }

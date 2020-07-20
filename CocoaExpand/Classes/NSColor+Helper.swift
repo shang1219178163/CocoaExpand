@@ -53,18 +53,6 @@ import Cocoa
         return NSColor.hexValue(0xe4e4e4);
     }
     
-    static var btnN: NSColor {
-        return NSColor.hexValue(0xfea914);
-    }
-    
-    static var btnH: NSColor {
-        return NSColor.hexValue(0xf1a013);
-    }
-    
-    static var btnD: NSColor {
-        return NSColor.hexValue(0x999999);
-    }
-    
     static var excel: NSColor {
         return NSColor(red: 238/255.0, green: 238/255.0, blue: 238/255.0, alpha: 1.0);
     }

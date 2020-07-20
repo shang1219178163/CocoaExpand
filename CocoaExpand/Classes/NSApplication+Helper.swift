@@ -26,14 +26,20 @@ import ServiceManagement
     }
     
     static var appName: String {
-        let infoDic = Bundle.main.infoDictionary;
-        let name = infoDic!["CFBundleDisplayName"] ?? infoDic![kCFBundleNameKey as String]
-        return name as! String;
+        guard let infoDic = Bundle.main.infoDictionary else { return "" }
+        if let name = infoDic["CFBundleDisplayName"] as? String {
+            return name
+        }
+        if let bundleName = infoDic[kCFBundleNameKey as String] as? String {
+            return bundleName
+        }
+        return ""
     }
     
     static var appBundleName: String {
-        let infoDic = Bundle.main.infoDictionary;
-        return infoDic!["CFBundleExecutable"] as! String;
+        guard let infoDic = Bundle.main.infoDictionary,
+        let result = infoDic["CFBundleExecutable"] as? String else { return "" }
+        return result
     }
     
     static var appIcon: NSImage {
@@ -43,21 +49,27 @@ import ServiceManagement
     }
     
     static var appVer: String {
-        let infoDic = Bundle.main.infoDictionary;
-        return infoDic!["CFBundleShortVersionString"] as! String;
+        guard let infoDic = Bundle.main.infoDictionary,
+        let result = infoDic["CFBundleShortVersionString"] as? String else { return "" }
+        return result
     }
     
     static var appBuild: String {
-        let infoDic = Bundle.main.infoDictionary;
-        return infoDic!["CFBundleVersion"] as! String;
+        guard let infoDic = Bundle.main.infoDictionary,
+        let result = infoDic["CFBundleVersion"] as? String else { return "" }
+        return result
     }
     
     static var systemInfo: String {
-        return Bundle.main.infoDictionary!["DTSDKName"] as! String;
+        guard let infoDic = Bundle.main.infoDictionary,
+        let result = infoDic["DTSDKName"] as? String else { return "" }
+        return result
     }
     
     static var appCopyright: String {
-        return Bundle.main.infoDictionary!["NSHumanReadableCopyright"] as! String;
+        guard let infoDic = Bundle.main.infoDictionary,
+        let result = infoDic["NSHumanReadableCopyright"] as? String else { return "" }
+        return result
     }
     
     static var userName: String {

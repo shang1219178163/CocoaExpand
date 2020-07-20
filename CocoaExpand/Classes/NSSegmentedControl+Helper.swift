@@ -16,12 +16,19 @@ import Cocoa
         }
         set {
             objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-            
-            segmentCount = newValue.count;
-            selectedSegment = 0;
-            for e in newValue.enumerated() {
-                self.setLabel(e.element, forSegment: e.offset)
-            }
+            updateItems(newValue)
+        }
+    }
+        
+    /// 配置新item数组
+    private func updateItems(_ items: [String]) {
+        if items.count == 0 {
+            return
+        }
+        segmentCount = items.count;
+        selectedSegment = 0;
+        for e in items.enumerated() {
+            self.setLabel(e.element, forSegment: e.offset)
         }
     }
     

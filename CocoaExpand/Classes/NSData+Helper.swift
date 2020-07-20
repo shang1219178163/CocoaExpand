@@ -16,9 +16,8 @@ import Cocoa
         }
         
         do {
-            let obj: NSObject = try JSONSerialization.jsonObject(with: self as Data, options: []) as! NSObject
+            let obj: Any = try JSONSerialization.jsonObject(with: self as Data, options: [])
            return obj;
-           
         } catch {
            print(error)
         }

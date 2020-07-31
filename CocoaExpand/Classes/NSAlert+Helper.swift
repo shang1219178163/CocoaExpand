@@ -21,12 +21,11 @@ import Cocoa
         return alert 
     }
     
-    static func show(_ title: String, msg: String, btnTitles: [String], window: NSWindow) -> Self {
-        let alert = NSAlert.create(title, msg: msg, btnTitles: btnTitles)
+    static func show(_ title: String, msg: String, btnTitles: [String], window: NSWindow) {
+        let alert = Self.create(title, msg: msg, btnTitles: btnTitles)
         alert.beginSheetModal(for: window) { (returnCode) in
             DDLog(returnCode)
         }
-        return alert as! Self;
     }
     /// ❌提示
     static func show(error: NSError) {

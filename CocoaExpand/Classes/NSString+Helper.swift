@@ -244,6 +244,25 @@ public extension Substring {
     func substring(loc: Int, len: Int) -> String {
         return self.substring(with: NSRange(location: loc, length: len))
     }
+    ///过滤字符集
+    func replacingOccurrences(of String: String, withSet: String) -> String {
+        let items: [String] = self.components(separatedBy: CharacterSet(charactersIn: withSet))
+        return items.joined(separator: "")
+    }
+    
+    ///获取两个字符串中间的部分(含这两部分)
+    func substring(_ prefix: String, subfix: String, isContain: Bool = false) -> String {
+        let beginLocation = self.range(of: prefix).location
+        let endLocation = self.range(of: subfix, options: .backwards).location
+        if beginLocation == NSNotFound || endLocation == NSNotFound {
+            return self as String
+        }
+        
+        let beginIdx = isContain == true ? beginLocation : beginLocation + 1
+        let endIdx = isContain == true ? endLocation - beginLocation + 1 : endLocation - beginLocation
+        let result = self.substring(with: NSRange(location: beginIdx, length: endIdx))
+        return result
+    }
     
     /// 字符串本身大于string
     func isCompare(_ string: NSString) -> Bool {

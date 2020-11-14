@@ -121,6 +121,15 @@ import Cocoa
         return attString;
     }
     
+    ///  富文本只有同字体大小才能计算高度
+    func size(_ width: CGFloat) -> CGSize {
+        let options: NSString.DrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+        var size = self.boundingRect(with: CGSize(width: width, height: CGFloat(MAXFLOAT)), options: options, context: nil).size;
+        size.width = ceil(size.width);
+        size.height = ceil(size.height);
+        return size;
+    }
+    
     /// 定义超链接文本颜色样式
     static func hyperlink(_ string: String, url: URL, font: CGFloat = 14) -> NSAttributedString {
         let attString = NSMutableAttributedString(string: string)

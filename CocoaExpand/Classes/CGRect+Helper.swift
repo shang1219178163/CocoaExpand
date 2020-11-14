@@ -10,6 +10,20 @@
 import Cocoa
 
 public extension CGRect{
+    ///中心点
+    var center: CGPoint {
+        get {
+            let centerX = origin.x + (size.width / 2)
+            let centerY = origin.y + (size.height / 2)
+            return CGPoint(x: centerX, y: centerY)
+        }
+        set{
+            //`newValue`便是所赋新值的点,系统的默认值
+            origin.x = newValue.x - (size.width / 2)
+            origin.y = newValue.y - (size.height / 2)
+        }
+    }
+    
     /// 便利方法
     init(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat) {
         self.init(x: x, y: y, width: w, height: h)
@@ -17,6 +31,22 @@ public extension CGRect{
     /// 仿OC方法
     static func make(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat) -> CGRect{
         return self.init(x: x, y: y, width: w, height: h)
+    }
+    
+    var pointLeftTop: CGPoint {
+        return CGPoint(x: minX, y: minY)
+    }
+    
+    var pointLeftBtm: CGPoint {
+        return CGPoint(x: minX, y: maxY)
+    }
+    
+    var pointRightTop: CGPoint {
+        return CGPoint(x: maxY, y: minX)
+    }
+    
+    var pointRightBtm: CGPoint {
+        return CGPoint(x: maxX, y: maxY)
     }
 }
 
@@ -58,4 +88,3 @@ public extension CGSize{
     }
 
 }
-

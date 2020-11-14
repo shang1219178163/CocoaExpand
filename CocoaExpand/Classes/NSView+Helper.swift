@@ -136,17 +136,23 @@ import Cocoa
         return nil;
     }
     
-    /// 获取父视图的 NSScrollView
-    public func supScrollView() -> NSScrollView? {
-        var supView = self.superview
-        while supView?.isKind(of: NSScrollView.classForCoder()) == false {
-            supView = supView?.superview;
+    /// 获取特定类型父视图
+    public func supView(_ type: NSView.Type) -> NSView? {
+        var supView = superview
+        while supView?.isKind(of: type) == false {
+            supView = supView?.superview
         }
-        
-        if supView?.isKind(of: NSWindow.classForCoder()) == true {
-            return nil
+        return supView ?? nil
+    }
+    
+    /// 获取特定类型子视图
+    public func subView(_ type: NSView.Type) -> NSView? {
+        for e in self.subviews.enumerated() {
+            if e.element.isKind(of: type) {
+                return e.element
+            }
         }
-        return (supView as! NSScrollView)
+        return nil
     }
     
     /// 插入模糊背景
@@ -164,6 +170,7 @@ import Cocoa
     }
     
     ///手势 - 轻点 UITapGestureRecognizer
+    @discardableResult
     public func addGestureClick(_ action: @escaping (NSClickGestureRecognizer) -> Void) -> NSClickGestureRecognizer {
         let obj = NSClickGestureRecognizer()
         addGestureRecognizer(obj)

@@ -10,14 +10,16 @@
 import Cocoa
 
 @objc public extension NSObject{
-
+    private struct AssociateKeys {
+        static var runtimeKey   = "NSObject" + "runtimeKey"
+    }
     /// 动态属性关联key
     var runtimeKey: UnsafeRawPointer {
         get {
-            return objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as! UnsafeRawPointer
+            return objc_getAssociatedObject(self, &AssociateKeys.runtimeKey) as! UnsafeRawPointer
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            objc_setAssociatedObject(self, &AssociateKeys.runtimeKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
     }
 

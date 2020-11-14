@@ -9,7 +9,9 @@
 import Cocoa
 
 @objc extension NSControl{
-
+    private struct AssociateKeys {
+        static var closure   = "NSControl" + "closure"
+    }
     
     public func addTarget(_ target: AnyObject?, action: Selector?, on mask: NSEvent.EventTypeMask = .leftMouseDown) {
         self.target = target;
@@ -18,7 +20,7 @@ import Cocoa
     }
     /// 闭包回调
     public func addActionHandler(_ handler: @escaping (NSControl) -> Void) {
-        objc_setAssociatedObject(self, UnsafeRawPointer(bitPattern: self.hashValue)!, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &AssociateKeys.closure, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
         target = self;
         action = #selector(p_invoke(_:));
     }
@@ -29,11 +31,11 @@ import Cocoa
         if let segmentCtl = self as? NSSegmentedControl {
             segmentCtl.trackingMode = trackingMode;
         }
-        objc_setAssociatedObject(self, UnsafeRawPointer(bitPattern: self.hashValue)!, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &AssociateKeys.closure, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
     }
     
     private func p_invoke(_ sender: NSControl) {
-        if let handler = objc_getAssociatedObject(self, UnsafeRawPointer(bitPattern: self.hashValue)!) as? ((NSControl) -> Void) {
+        if let handler = objc_getAssociatedObject(self, &AssociateKeys.closure) as? ((NSControl) -> Void) {
             handler(sender);
         }
     }

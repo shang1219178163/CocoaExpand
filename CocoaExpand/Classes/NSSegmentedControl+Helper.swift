@@ -9,13 +9,16 @@
 import Cocoa
 
 @objc public extension NSSegmentedControl {
-
+    private struct AssociateKeys {
+        static var items   = "NSSegmentedControl" + "items"
+    }
+    
     var items: [String] {
         get {
-            return objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as! [String]
+            return objc_getAssociatedObject(self, &AssociateKeys.items) as! [String]
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            objc_setAssociatedObject(self, &AssociateKeys.items, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             updateItems(newValue)
         }
     }

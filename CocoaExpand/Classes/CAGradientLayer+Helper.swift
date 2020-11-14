@@ -9,6 +9,9 @@
 import Cocoa
 
 @objc public extension CAGradientLayer{
+    private struct AssociateKeys {
+        static var defaultColors   = "CAGradientLayer" + "defaultColors"
+    }
     
     static func layerRect(_ rect: CGRect = .zero, colors: [Any], start: CGPoint, end: CGPoint) -> CAGradientLayer {
         let layer = CAGradientLayer()
@@ -36,15 +39,16 @@ import Cocoa
     
     static var defaultColors: [Any] {
         get {
-            var obj = objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as? [Any];
-            if obj == nil {
-                obj = [NSColor.hexValue(0x6cda53, a: 0.9).cgColor, NSColor.hexValue(0x1a965a, a: 0.9).cgColor]
-                objc_setAssociatedObject(self, RuntimeKeySelector(#function), obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            if let obj = objc_getAssociatedObject(self,  &AssociateKeys.defaultColors) as? [Any] {
+                return obj;
             }
-            return obj!;
+            
+            let list = [NSColor.hexValue(0x6cda53, a: 0.9).cgColor, NSColor.hexValue(0x1a965a, a: 0.9).cgColor]
+                objc_setAssociatedObject(self,  &AssociateKeys.defaultColors, list, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            return list
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            objc_setAssociatedObject(self,  &AssociateKeys.defaultColors, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
     }
 }

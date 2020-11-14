@@ -10,18 +10,21 @@ import Cocoa
 import ServiceManagement
 
 @objc public extension NSApplication{
+    private struct AssociateKeys {
+        static var mainWindow   = "NSApplication" + "windowDefault"
+    }
     
     static var windowDefault: NSWindow {
         get {
-            var obj = objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as? NSWindow
+            var obj = objc_getAssociatedObject(self, &AssociateKeys.mainWindow) as? NSWindow
             if obj == nil {
                 obj = NSWindow.createMain();
-                objc_setAssociatedObject(self, RuntimeKeySelector(#function), obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                objc_setAssociatedObject(self, &AssociateKeys.mainWindow, obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             }
             return obj!
         }
         set {
-            objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            objc_setAssociatedObject(self, &AssociateKeys.mainWindow, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
     }
     

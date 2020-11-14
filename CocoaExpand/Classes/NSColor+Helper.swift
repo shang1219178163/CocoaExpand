@@ -9,6 +9,9 @@
 import Cocoa
 
 @objc public extension NSColor{
+    private struct AssociateKeys {
+        static var theme   = "NSColor" + "theme"
+    }
     
     convenience init(r: Int = 0, g: Int = 0, b: Int = 0, a: CGFloat = 1) {
          assert(r >= 0 && r <= 255, "Invalid red component")
@@ -29,12 +32,13 @@ import Cocoa
     
     static var theme: NSColor {
         get{
-            var obj = objc_getAssociatedObject(self, RuntimeKeySelector(#function)) as? NSColor;
-            obj = obj ?? NSColor.hexValue(0x0082e0)
-            return obj!;
+            if let obj = objc_getAssociatedObject(self,  &AssociateKeys.theme) as? NSColor {
+                return obj;
+            }
+            return NSColor.hexValue(0x0082e0)
         }
         set{
-            objc_setAssociatedObject(self, RuntimeKeySelector(#function), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            objc_setAssociatedObject(self,  &AssociateKeys.theme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
     }
     /// 通用背景色
@@ -91,6 +95,9 @@ import Cocoa
         var cString = hex.trimmingCharacters(in: CharacterSet.whitespaces).uppercased();
         if cString.hasPrefix("#") {
             let index = cString.index(cString.startIndex, offsetBy:1);
+            cString = String(cString[index...]);
+        } else if cString.hasPrefix("0X") {
+            let index = cString.index(cString.startIndex, offsetBy:2);
             cString = String(cString[index...]);
         }
         

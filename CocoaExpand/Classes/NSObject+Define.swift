@@ -25,31 +25,6 @@ public typealias DidSelectItemClosure = ((NSCollectionView, IndexPath) -> Void)
 
 public typealias ScrollViewDidScrollClosure = ((NSScrollView) -> Void)
 
-// MARK: - 关联属性的key
-public struct RuntimeKey {
-    public static let tap = UnsafeRawPointer(bitPattern: "tap".hashValue)!;
-    public static let item = UnsafeRawPointer(bitPattern: "item".hashValue)!;
-//    public static let control = UnsafeRawPointer(bitPattern: "control".hashValue)!;
-
-}
-
-public func RuntimeKeyParams(_ obj: NSObject!, funcAbount: String!) -> UnsafeRawPointer! {
-    let unique = "\(obj.hashValue)," + funcAbount
-    let key: UnsafeRawPointer = UnsafeRawPointer(bitPattern: unique.hashValue)!
-    return key;
-}
-
-public func RuntimeKeyString(_ obj: String) -> UnsafeRawPointer! {
-    let key: UnsafeRawPointer = UnsafeRawPointer(bitPattern: obj.hashValue)!
-    return key;
-}
-
-public func RuntimeKeySelector(_ aSelector: Selector) -> UnsafeRawPointer! {
-    let aSelectorName = NSStringFromSelector(aSelector);
-    let key: UnsafeRawPointer = RuntimeKeyString(aSelectorName)
-    return key;
-}
-
 /// 自定义NSEdgeInsets
 public func NSEdgeInsetsMake(_ top: CGFloat = 0, _ left: CGFloat = 0, _ bottom: CGFloat = 0, _ right: CGFloat = 0) -> NSEdgeInsets{
     return NSEdgeInsets(top: top, left: left, bottom: bottom, right: right)

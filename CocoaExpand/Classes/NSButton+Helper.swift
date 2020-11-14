@@ -11,7 +11,7 @@ import Cocoa
 @objc public extension NSButton {
 
     static func create(_ rect: CGRect) -> Self {
-        let view: NSButton = self.init(frame: rect);
+        let view = self.init(frame: rect);
         view.autoresizingMask = [.width, .height]
         view.bezelStyle = .regularSquare
         
@@ -19,7 +19,7 @@ import Cocoa
             view.bezelColor = NSColor.lightGreen
         }
 
-        return view as! Self;
+        return view
     }
     
     func setTitleColor(_ color: NSColor, font: CGFloat = 15) {

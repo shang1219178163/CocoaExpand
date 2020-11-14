@@ -12,7 +12,7 @@ import Cocoa
 @objc public extension NSTableView {
 
     static func create(_ rect: CGRect) -> Self {
-        let view: NSTableView = self.init(frame: rect);
+        let view = self.init(frame: rect);
         view.autoresizingMask = [.width, .height];
 //        view.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
 
@@ -27,7 +27,7 @@ import Cocoa
 //        view.headerView = nil;
 
         view.rowHeight = 70;
-        return view as! Self;
+        return view
     }
     
     /// 添加一组表头

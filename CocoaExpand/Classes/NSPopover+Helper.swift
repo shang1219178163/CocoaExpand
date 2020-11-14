@@ -12,7 +12,7 @@ import Cocoa
 @objc public extension NSPopover {
 
     static func create(controller: NSViewController) -> Self {
-        let popover: NSPopover = self.init()
+        let popover = self.init()
         popover.appearance = NSAppearance(named: .vibrantLight)
         popover.behavior = .transient
         popover.contentViewController = controller;
@@ -30,7 +30,7 @@ import Cocoa
          preferredEdge : 枚举类型,用来说明矩形四条边的那一条边界
          */
 //        popover.show(relativeTo: view.bounds, of: view, preferredEdge: .maxX)
-        return popover as! Self;
+        return popover
     }
     
     func show(_ view: NSView, preferredEdge: NSRectEdge) {

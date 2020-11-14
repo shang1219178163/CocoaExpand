@@ -17,7 +17,7 @@ import QuartzCore
                                    fillMode: CAMediaTimingFillMode = .forwards,
                                    removedOnCompletion: Bool = false) -> CAAnimationGroup {
         
-        let anim: CAAnimationGroup = CAAnimationGroup();
+        let anim = CAAnimationGroup();
         anim.duration = duration;
         anim.repeatCount = repeatCount;
         anim.autoreverses = autoreverses;

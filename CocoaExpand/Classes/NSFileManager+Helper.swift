@@ -14,6 +14,7 @@ import Cocoa
     static var downloadsDir = FileManager.default.urls( for: .downloadsDirectory, in:.userDomainMask).first;
 
     ///根据文件名和路径创建文件
+    @discardableResult
     static func createFile(atPath path: String, name: String, content: String, attributes: [FileAttributeKey : Any]?, isCover: Bool = true) -> Bool {
 //        let filePath = atPath + "/\(name)"
         let filePath = isCover ? "\(path)/\(name)" :  "\(path)/\(name)_\(DateFormatter.stringFromDate(Date()))";

@@ -11,11 +11,11 @@ import Cocoa
 @objc public extension NSTabView {
 
     static func create(_ rect: CGRect) -> Self {
-        let view: NSTabView = self.init(frame: rect);
+        let view = self.init(frame: rect);
         view.tabPosition = .top
         view.tabViewBorderType = .line
         
-        return view as! Self;
+        return view
     }
     
     /*

@@ -11,7 +11,7 @@ import Cocoa
 @objc public extension NSScrollView {
 
     static func create(_ rect: CGRect) -> Self {
-        let view: NSScrollView = self.init(frame: rect);
+        let view = self.init(frame: rect);
         view.autoresizingMask = [.width, .height];
                       
         view.hasHorizontalScroller = false;
@@ -19,8 +19,7 @@ import Cocoa
         view.autohidesScrollers = true;
         
         view.drawsBackground = true
-        
-        return view as! Self;
+        return view
     }
     
     func scrollToTop() {

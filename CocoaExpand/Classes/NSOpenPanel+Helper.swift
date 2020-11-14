@@ -11,7 +11,7 @@ import Cocoa
 @objc public extension NSOpenPanel {
 
     static func create(fileTypes: [String]?, allowsMultipleSelection: Bool = false) -> Self {
-        let panel: NSOpenPanel = self.init()
+        let panel = self.init()
         panel.canChooseFiles = true;
         panel.canChooseDirectories = true;
         panel.allowsMultipleSelection = allowsMultipleSelection;
@@ -22,15 +22,15 @@ import Cocoa
 //        if panel.runModal() == NSApplication.ModalResponse.OK {
 //            DDLog(panel.urls)
 //        }
-        return panel as! Self;
+        return panel
     }
     
     static func open(fileTypes: [String]?, allowsMultipleSelection: Bool = false) -> Self {
-        let panel: NSOpenPanel = self.create(fileTypes: fileTypes, allowsMultipleSelection: allowsMultipleSelection)
+        let panel = self.create(fileTypes: fileTypes, allowsMultipleSelection: allowsMultipleSelection)
         panel.runModal()
         if panel.runModal() == NSApplication.ModalResponse.OK {
             DDLog(panel.urls)
         }
-        return panel as! Self;
+        return panel
     }
 }

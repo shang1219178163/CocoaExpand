@@ -36,7 +36,7 @@ import Cocoa
     }
     
     static func create(_ rect: CGRect) -> Self {
-        let view: NSTextView = self.init(frame: rect);
+        let view = self.init(frame: rect);
         view.autoresizingMask = [.width, .height];
            
         view.font = NSFont.systemFont(ofSize: 14)
@@ -49,7 +49,7 @@ import Cocoa
         view.isSelectable = true;
         view.drawsBackground = true
 
-        return view as! Self;
+        return view
     }
     
     /// 超链接处理

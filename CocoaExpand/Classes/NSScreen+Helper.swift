@@ -19,19 +19,19 @@ import Cocoa
         return NSScreen.main!.frame.size.height
     }
     
-    static var statusBarHeight: CGFloat {
-        return 20.0
-    }
-    
-    static var navBarHeight: CGFloat {
-        return 44.0
-    }
-    
-    static var barHeight: CGFloat {
-        return (NSScreen.statusBarHeight + NSScreen.navBarHeight)
-    }
-    
-    static var tabBarHeight: CGFloat {
-        return 49.0
-    }
+//    static var statusBarHeight: CGFloat {
+//        return 20.0
+//    }
+//    
+//    static var navBarHeight: CGFloat {
+//        return 44.0
+//    }
+//    
+//    static var barHeight: CGFloat {
+//        return (NSScreen.statusBarHeight + NSScreen.navBarHeight)
+//    }
+//    
+//    static var tabBarHeight: CGFloat {
+//        return 49.0
+//    }
 }

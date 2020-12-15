@@ -135,9 +135,9 @@ import ServiceManagement
     /// 打开网络链接
     static func openURL(_ urlStr: String, isUrl: Bool = true) {
         if isUrl == true {
-            _ = NSApplication.openURLStr(urlStr, prefix: "http://")
+            NSApplication.openURLStr(urlStr, prefix: "http://")
         } else {
-            _ = NSApplication.openURLStr(urlStr, prefix: "tel://")
+            NSApplication.openURLStr(urlStr, prefix: "tel://")
         }
     }
     

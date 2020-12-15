@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CocoaExpand'
-  s.version          = '2.0.1'
+  s.version          = '2.1.0'
   s.summary          = 'Cocoa SDK功能扩展（macApp）'
   s.description      = 'Cocoa SDK功能扩展（macApp）,提高开发效率'
 

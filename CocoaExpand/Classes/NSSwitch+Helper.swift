@@ -19,11 +19,11 @@ import Cocoa
     /// 闭包回调
     func adActionHandler(_ handler: @escaping ((NSSwitch) -> Void)) {
         target = self;
-        action = #selector(p_invoke(_:));
+        action = #selector(p_invokeSwitch(_:));
         objc_setAssociatedObject(self, &AssociateKeys.closure, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
     }
         
-    private func p_invoke(_ sender: NSSwitch) {
+    private func p_invokeSwitch(_ sender: NSSwitch) {
         if let handler = objc_getAssociatedObject(self, &AssociateKeys.closure) as? ((NSSwitch) -> Void) {
             handler(sender);
         }

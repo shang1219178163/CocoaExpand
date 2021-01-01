@@ -29,12 +29,12 @@ import Cocoa
         
     func addActionHandler(_ handler: @escaping ((NSSegmentedControl) -> Void), trackingMode: NSSegmentedControl.SwitchTracking) {
         target = self;
-        action = #selector(p_invoke(_:));
+        action = #selector(p_invokeSegmentedCtl(_:));
         self.trackingMode = trackingMode;
         objc_setAssociatedObject(self, &AssociateKeys.closure, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
     }
     
-    private func p_invoke(_ sender: NSSegmentedControl) {
+    private func p_invokeSegmentedCtl(_ sender: NSSegmentedControl) {
         if let handler = objc_getAssociatedObject(self, &AssociateKeys.closure) as? ((NSSegmentedControl) -> Void) {
             handler(sender);
         }

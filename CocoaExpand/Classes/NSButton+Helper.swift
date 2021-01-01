@@ -16,11 +16,11 @@ import Cocoa
     /// 闭包回调(NSSegmentedControl 专用)
     override func addActionHandler(_ handler: @escaping ((NSButton) -> Void)) {
         target = self;
-        action = #selector(p_invoke(_:));
+        action = #selector(p_invokeButton(_:));
         objc_setAssociatedObject(self, &AssociateKeys.closure, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
     }
     
-    private func p_invoke(_ sender: NSButton) {
+    private func p_invokeButton(_ sender: NSButton) {
         if let handler = objc_getAssociatedObject(self, &AssociateKeys.closure) as? ((NSButton) -> Void) {
             handler(sender);
         }

@@ -71,19 +71,6 @@ public func NNClassFromString(_ name: String) -> AnyClass? {
     return nil;
 }
 
-////获取本地创建类(Swift类,需要在名称之前加 . 符号,以示区别)
-//public func NNClassFromString(_ name: String) -> AnyClass {
-//    //    let nameKey = "CFBundleName";
-//    //    这里也是坑，请不要翻译oc的代码，而是去NSBundle类里面看它的api
-//    //    let appName = Bundle.main.infoDictionary!["CFBundleName"] as? String;
-//    if name.contains(".") {
-//        let className = "\(NSApplication.appBundleName).\(name.split(separator: ".").last!)"
-//        return NSClassFromString(className)!;
-//    }
-//    let cls: AnyClass = NSClassFromString(name)!;
-//    return cls;
-//}
-
 /// 获取本地 NSViewController 文件(Swift类,需要在名称之前加 . 符号,以示区别)
 public func NSCtrFromString(_ vcName: String) -> NSViewController {
     let cls: AnyClass = NNClassFromString(vcName)!;
@@ -95,17 +82,3 @@ public func NSCtrFromString(_ vcName: String) -> NSViewController {
     return controller;
 }
 
-/// 地址字符串(hostname + port)
-public func UrlAddress(_ hostname: String, port: String) ->String {
-    return NSString.UrlAddress(hostname, port: port);
-}
-
-///// 两个Int(+-*/)
-//public func resultByOpt(_ num1: Int, _ num2: Int, result: (Int, Int) -> Int) -> Int {
-//    return result(num1, num2);
-//}
-
-/// 两个数值(+-*/)
-public func resultByOpt<T>(_ num1: T, _ num2: T, result: (T, T) -> T) -> T {
-    return result(num1, num2);
-}

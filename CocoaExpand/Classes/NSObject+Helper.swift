@@ -24,8 +24,6 @@ import Cocoa
     }
 
     /// 类的字符串名称
-//    static let identifier = String(describing: self)
-//    static let identifier = String(describing: self)
     static var identifier: String{
         return String(describing: self)
     }
@@ -197,25 +195,24 @@ import Cocoa
         return size;
     }
     
-    /// 密集小视图的尺寸布局
-    func itemSize(_ items: [String], numberOfRow: Int, width: CGFloat = NSScreen.sizeWidth, itemHeight: CGFloat = 60, padding: CGFloat = kPadding) -> CGSize {
-        let rowCount = items.count % numberOfRow == 0 ? items.count/numberOfRow : items.count/numberOfRow + 1
-//        let tmp = CGFloat(numberOfRow) - 1.0
-//        let itemWith = (width - tmp*padding)/CGFloat(numberOfRow)
-//        let tmpHeight = itemHeight <= 0.0 ? itemWith : itemHeight;
-        let height = CGFloat(rowCount) * itemHeight + CGFloat(rowCount) - 1.0 * padding
-        let size = CGSize(width: width, height: height)
-        return size
-    }
-    
-    /// 标题前缀差异化显示
-    func getAttringByPrefix(_ prefix: String!, content: String!, isMust: Bool = false) -> NSAttributedString {
-        let string = content.hasPrefix(prefix) == true ? content : prefix + content
-        let colorMust = isMust == true ? NSColor.red : NSColor.clear
-        let attString = NSAttributedString.attString(string, textTaps: [prefix], font: 15, tapFont: 15, color: .black, tapColor: colorMust, alignment: .left)
-        return attString
-    }
-
+//    /// 密集小视图的尺寸布局
+//    func itemSize(_ items: [String], numberOfRow: Int, width: CGFloat = NSScreen.sizeWidth, itemHeight: CGFloat = 60, padding: CGFloat = kPadding) -> CGSize {
+//        let rowCount = items.count % numberOfRow == 0 ? items.count/numberOfRow : items.count/numberOfRow + 1
+////        let tmp = CGFloat(numberOfRow) - 1.0
+////        let itemWith = (width - tmp*padding)/CGFloat(numberOfRow)
+////        let tmpHeight = itemHeight <= 0.0 ? itemWith : itemHeight;
+//        let height = CGFloat(rowCount) * itemHeight + CGFloat(rowCount) - 1.0 * padding
+//        let size = CGSize(width: width, height: height)
+//        return size
+//    }
+//    
+//    /// 标题前缀差异化显示
+//    func getAttringByPrefix(_ prefix: String!, content: String!, isMust: Bool = false) -> NSAttributedString {
+//        let string = content.hasPrefix(prefix) == true ? content : prefix + content
+//        let colorMust = isMust == true ? NSColor.red : NSColor.clear
+//        let attString = NSAttributedString.attString(string, textTaps: [prefix], font: 15, tapFont: 15, color: .black, tapColor: colorMust, alignment: .left)
+//        return attString
+//    }
 
 }
 

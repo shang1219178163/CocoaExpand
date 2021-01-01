@@ -9,7 +9,24 @@
 import Cocoa
 
 @objc public extension NSButton {
-
+    private struct AssociateKeys {
+        static var closure   = "NSButton" + "closure"
+    }
+    
+    /// 闭包回调(NSSegmentedControl 专用)
+    override func addActionHandler(_ handler: @escaping ((NSButton) -> Void)) {
+        target = self;
+        action = #selector(p_invoke(_:));
+        objc_setAssociatedObject(self, &AssociateKeys.closure, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
+    }
+    
+    private func p_invoke(_ sender: NSButton) {
+        if let handler = objc_getAssociatedObject(self, &AssociateKeys.closure) as? ((NSButton) -> Void) {
+            handler(sender);
+        }
+    }
+    
+    
     static func create(_ rect: CGRect) -> Self {
         let view = self.init(frame: rect);
         view.autoresizingMask = [.width, .height]

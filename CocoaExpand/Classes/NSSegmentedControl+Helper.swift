@@ -11,15 +11,32 @@ import Cocoa
 @objc public extension NSSegmentedControl {
     private struct AssociateKeys {
         static var items   = "NSSegmentedControl" + "items"
+        static var closure = "NSSegmentedControl" + "closure"
     }
     
     var items: [String] {
         get {
-            return objc_getAssociatedObject(self, &AssociateKeys.items) as! [String]
+            if let obj = objc_getAssociatedObject(self, &AssociateKeys.items) as? [String] {
+                return obj
+            }
+            return [String]()
         }
         set {
             objc_setAssociatedObject(self, &AssociateKeys.items, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             updateItems(newValue)
+        }
+    }
+        
+    func addActionHandler(_ handler: @escaping ((NSSegmentedControl) -> Void), trackingMode: NSSegmentedControl.SwitchTracking) {
+        target = self;
+        action = #selector(p_invoke(_:));
+        self.trackingMode = trackingMode;
+        objc_setAssociatedObject(self, &AssociateKeys.closure, handler, .OBJC_ASSOCIATION_COPY_NONATOMIC);
+    }
+    
+    private func p_invoke(_ sender: NSSegmentedControl) {
+        if let handler = objc_getAssociatedObject(self, &AssociateKeys.closure) as? ((NSSegmentedControl) -> Void) {
+            handler(sender);
         }
     }
         

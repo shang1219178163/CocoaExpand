@@ -70,5 +70,27 @@ public extension Array{
         return list
     }
     
+    
+    func map(_ transform: @escaping ((Element)->Element)) -> NSArray {
+        let marr = NSMutableArray()
+        for e in self {
+            if let obj = transform(e) as Element? {
+                marr.add(obj)
+            }
+        }
+        return marr.copy() as! NSArray
+    }
+    
+    func filter(_ transform: @escaping ((Element)->Bool)) -> NSArray {
+        let marr = NSMutableArray()
+        for e in self {
+            if transform(e) == true {
+                marr.add(e)
+            }
+        }
+        return marr.copy() as! NSArray
+    }
+    
+    
 }
 

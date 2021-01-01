@@ -61,8 +61,16 @@ public extension String{
             else { return nil }
         return json
     }
+    
+    var trimmed: String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+        
     // MARK: -funtions
-
+    func trimmedBy(_ string: String) -> String {
+        return trimmingCharacters(in: CharacterSet(charactersIn: string))
+    }
+    
     /// range转换为NSRange
     func nsRange(from range: Range<String.Index>) -> NSRange {
         return NSRange(range, in: self)
@@ -96,9 +104,9 @@ public extension String{
        return (self as NSString).transformToPinyin();
     }
     /// 字符串首位加*
-    func toAsterisk() -> NSAttributedString{
-        return (self as NSString).toAsterisk()
-    }
+//    func toAsterisk() -> NSAttributedString{
+//        return (self as NSString).toAsterisk()
+//    }
     
     /// 复制到剪切板
     func copyToPasteboard(_ showTips: Bool) {
@@ -228,16 +236,12 @@ public extension Substring {
         return (self as String).md5
     }
     
-    /// 地址字符串(hostname + port)
-    static func UrlAddress(_ hostname: String, port: String) ->String {
-        var webUrl: String = hostname;
-        if !hostname.contains("http://") {
-            webUrl = "http://" + hostname;
-        }
-        if port != "" {
-            webUrl = webUrl + ":\(port)";
-        }
-        return webUrl;
+    var trimmed: String {
+        return (self as String).trimmed
+    }
+    
+    func trimmedBy(_ string: String) -> String {
+        return (self as String).trimmedBy(string)
     }
     
     /// 获取子字符串
@@ -303,10 +307,10 @@ public extension Substring {
     }
     
     /// 字符串首位加*
-    func toAsterisk() -> NSAttributedString{
-        let isMust = self.contains(kAsterisk)
-        return (self as NSString).getAttringByPrefix(kAsterisk, content: self as String, isMust: isMust)
-    }
+//    func toAsterisk() -> NSAttributedString{
+//        let isMust = self.contains(kAsterisk)
+//        return (self as NSString).getAttringByPrefix(kAsterisk, content: self as String, isMust: isMust)
+//    }
     
     /// 复制到剪切板
     func copyToPasteboard(_ showTips: Bool) {
@@ -376,13 +380,13 @@ public extension Substring {
         return result;
     }
     
-    /// 过滤特殊字符集
-    func filter(_ string: String) -> String{
-        assert(self.length > 0);
-        let chartSet = NSCharacterSet(charactersIn: string).inverted;
-        let result = self.addingPercentEncoding(withAllowedCharacters: chartSet)
-        return result!;
-    }
+//    /// 过滤特殊字符集
+//    func filter(_ string: String) -> String{
+//        assert(self.length > 0);
+//        let chartSet = NSCharacterSet(charactersIn: string).inverted;
+//        let result = self.addingPercentEncoding(withAllowedCharacters: chartSet)
+//        return result!;
+//    }
     
     /// 通过集合字符的字母分割字符串
     func componentsSeparatedByCharactersInString(_ aString: String) -> [String]{

@@ -161,3 +161,139 @@ import Cocoa
     }
 
 }
+
+
+///属性链式编程实现
+@objc public extension NSMutableAttributedString {
+    
+    func font(_ font: NSFont) -> Self {
+        addAttributes([NSAttributedString.Key.font: font], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    func color(_ color: NSColor) -> Self {
+        addAttributes([NSAttributedString.Key.foregroundColor: color], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    func bgColor(_ color: NSColor) -> Self {
+        addAttributes([NSAttributedString.Key.backgroundColor: color], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    func link(_ value: String) -> Self {
+        return linkURL(URL(string: value)!)
+    }
+    
+    func linkURL(_ value: URL) -> Self {
+        addAttributes([NSAttributedString.Key.link: value], range: NSMakeRange(0, self.length))
+        return self
+    }
+    //设置字体倾斜度，取值为float，正值右倾，负值左倾
+    func oblique(_ value: CGFloat = 0.1) -> Self {
+        addAttributes([NSAttributedString.Key.obliqueness: value], range: NSMakeRange(0, self.length))
+        return self
+    }
+       
+    //字符间距
+    func kern(_ value: CGFloat) -> Self {
+        addAttributes([.kern: value], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    //设置字体的横向拉伸，取值为float，正值拉伸 ，负值压缩
+    func expansion(_ value: CGFloat) -> Self {
+        addAttributes([.expansion: value], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    //设置下划线
+    func underline(_ style: NSUnderlineStyle = .single, _ color: NSColor) -> Self {
+        addAttributes([
+            .underlineColor: color,
+            .underlineStyle: style.rawValue
+        ], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    //设置删除线
+    func strikethrough(_ style: NSUnderlineStyle = .single, _ color: NSColor) -> Self {
+        addAttributes([
+            .strikethroughColor: color,
+            .strikethroughStyle: style.rawValue,
+        ], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    //设置删除线
+    func stroke(_ color: NSColor, _ value: CGFloat = 0) -> Self {
+        addAttributes([
+            .strokeColor: color,
+            .strokeWidth: value,
+        ], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    ///设置基准位置 (正上负下)
+    func baseline(_ value: CGFloat) -> Self {
+        addAttributes([.baselineOffset: value], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    ///设置段落
+    func paraStyle(_ alignment: NSTextAlignment,
+                   lineSpacing: CGFloat = 0,
+                   paragraphSpacingBefore: CGFloat = 0,
+                   lineBreakMode: NSLineBreakMode = .byTruncatingTail) -> Self {
+        let style = NSMutableParagraphStyle()
+        style.alignment = alignment
+        style.lineBreakMode = lineBreakMode
+        style.lineSpacing = lineSpacing
+        style.paragraphSpacingBefore = paragraphSpacingBefore
+        addAttributes([.paragraphStyle: style], range: NSMakeRange(0, self.length))
+        return self
+    }
+        
+    ///设置段落
+    func paragraphStyle(_ style: NSMutableParagraphStyle) -> Self {
+        addAttributes([.paragraphStyle: style], range: NSMakeRange(0, self.length))
+        return self
+    }
+    
+    ///设置段落
+    func appendInterpolation(image: NSImage, scale: CGFloat = 1.0) -> Self {
+        let attachment = NSTextAttachment()
+        let size = NSSize(
+          width: image.size.width * scale,
+          height: image.size.height * scale
+        )
+        attachment.image = NSImage(size: size, flipped: false, drawingHandler: { (rect: NSRect) -> Bool in
+          NSGraphicsContext.current?.cgContext.translateBy(x: 0, y: size.height)
+          NSGraphicsContext.current?.cgContext.scaleBy(x: 1, y: -1)
+          image.draw(in: rect)
+          return true
+        })
+        self.append(NSAttributedString(attachment: attachment))
+        return self
+    }
+}
+
+
+public extension String {
+    
+    /// -> NSMutableAttributedString
+    var matt: NSMutableAttributedString{
+        return NSMutableAttributedString(string: self)
+    }
+    
+}
+
+
+@objc public extension NSAttributedString {
+    
+    /// -> NSMutableAttributedString
+    var matt: NSMutableAttributedString{
+        return NSMutableAttributedString(attributedString: self)
+    }
+    
+}

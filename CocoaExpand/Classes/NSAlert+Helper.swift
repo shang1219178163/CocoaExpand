@@ -10,10 +10,10 @@ import Cocoa
 
 @objc public extension NSAlert {
 
-    static func create(_ title: String, msg: String, btnTitles: [String]) -> Self {
+    static func create(_ title: String, message: String, btnTitles: [String]) -> Self {
         let alert = self.init()
         alert.messageText = title
-        alert.informativeText = msg
+        alert.informativeText = message
         alert.alertStyle = .informational
         for e in btnTitles {
             alert.addButton(withTitle: e)
@@ -22,7 +22,7 @@ import Cocoa
     }
     
     static func show(_ title: String, msg: String, btnTitles: [String], window: NSWindow) {
-        let alert = Self.create(title, msg: msg, btnTitles: btnTitles)
+        let alert = Self.create(title, message: msg, btnTitles: btnTitles)
         alert.beginSheetModal(for: window) { (returnCode) in
             DDLog(returnCode)
         }

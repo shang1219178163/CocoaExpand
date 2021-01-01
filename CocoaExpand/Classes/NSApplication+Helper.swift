@@ -76,7 +76,8 @@ import ServiceManagement
     }
     
     static var userName: String {
-        return ProcessInfo.processInfo.userName;
+//        return ProcessInfo.processInfo.userName;
+        return ProcessInfo.processInfo.fullUserName;
     }
     
     static var localizedName: String {
@@ -88,24 +89,36 @@ import ServiceManagement
     }
     /// MacOX
     static var productName: String {
-        return (self.systemDic?["ProductName"] as! String);
+        guard let dic = self.systemDic,
+              let name = dic["ProductName"] as? String
+              else { return ""}
+        return name;
     }
     /// MacOX 版权
     static var productCopyright: String {
-        return (self.systemDic?["ProductCopyright"] as! String);
+        guard let dic = self.systemDic,
+              let copyright = dic["ProductCopyright"] as? String
+              else { return ""}
+        return copyright;
     }
     /// MacOX 版权
     static var productVersion: String {
-        return (self.systemDic?["ProductVersion"] as! String);
+        guard let dic = self.systemDic,
+              let version = dic["ProductVersion"] as? String
+              else { return ""}
+        return version;
     }
     
     /// 获取默认版权信息
     static var classCopyright: String {
-        return getCopyright(with: "", type: "")
+        return copyright(with: "", type: "")
     }
     /// 获取文件版权信息
-    static func getCopyright(with name: String, type: String,
-                             bundleName: String = NSApplication.appBundleName, author: String = NSApplication.userName, organization: String = NSApplication.userName) -> String {
+    static func copyright(with name: String,
+                          type: String,
+                          bundleName: String = NSApplication.appBundleName,
+                          author: String = NSApplication.userName,
+                          organization: String = NSApplication.userName) -> String {
         let dateStr = DateFormatter.stringFromDate(Date(), fmt: "yyyy/MM/dd HH:mm")
         let year = dateStr.components(separatedBy: "/").first!
 
@@ -115,7 +128,7 @@ import ServiceManagement
         //\t\(fileName)
         //\t\(bundleName)
         //
-        //\tCreated by \(author) on \(dateStr)
+        //\tCreated by \(author.capitalized) on \(dateStr)
         //\tCopyright © \(year) \(organization). All rights reserved.
         //\n\n
         """

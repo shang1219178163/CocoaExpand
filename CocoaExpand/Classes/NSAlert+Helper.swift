@@ -21,8 +21,8 @@ import Cocoa
         return alert 
     }
     
-    static func show(_ title: String, msg: String, btnTitles: [String], window: NSWindow) {
-        let alert = Self.create(title, message: msg, btnTitles: btnTitles)
+    static func show(_ title: String, message: String, btnTitles: [String], window: NSWindow) {
+        let alert = Self.create(title, message: message, btnTitles: btnTitles)
         alert.beginSheetModal(for: window) { (returnCode) in
             DDLog(returnCode)
         }

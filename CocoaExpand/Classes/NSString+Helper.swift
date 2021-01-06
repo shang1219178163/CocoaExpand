@@ -67,6 +67,7 @@ public extension String{
     }
         
     // MARK: -funtions
+    ///將字串前後不要的文字剪掉
     func trimmedBy(_ string: String) -> String {
         return trimmingCharacters(in: CharacterSet(charactersIn: string))
     }

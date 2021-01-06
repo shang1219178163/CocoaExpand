@@ -8,9 +8,9 @@
 
 import Cocoa
 
-@objc extension NSView {
+@objc public extension NSView {
     
-    public var sizeWidth: CGFloat {
+    var sizeWidth: CGFloat {
         get {
             return frame.size.width
         }
@@ -21,7 +21,7 @@ import Cocoa
         }
     }
     
-    public var sizeHeight: CGFloat {
+    var sizeHeight: CGFloat {
         get {
             return frame.size.height
         }
@@ -32,7 +32,7 @@ import Cocoa
         }
     }
     
-    public var size: CGSize  {
+    var size: CGSize  {
         get {
             return frame.size
         }
@@ -43,7 +43,7 @@ import Cocoa
         }
     }
     
-    public var originX: CGFloat {
+    var originX: CGFloat {
         get {
             return frame.origin.x
         }
@@ -54,7 +54,7 @@ import Cocoa
         }
     }
     
-    public var originY: CGFloat {
+    var originY: CGFloat {
         get {
             return frame.origin.y
         }
@@ -66,7 +66,7 @@ import Cocoa
         }
     }
     
-    public var origin: CGPoint {
+    var origin: CGPoint {
         get {
             return frame.origin
         }
@@ -78,31 +78,31 @@ import Cocoa
         }
     }
     
-    public var minX: CGFloat {
+    var minX: CGFloat {
         return frame.minX
     }
     
-    public var minY: CGFloat {
+    var minY: CGFloat {
         return frame.minY
     }
     
-    public var midX: CGFloat {
+    var midX: CGFloat {
         return frame.midX
     }
     
-    public var midY: CGFloat {
+    var midY: CGFloat {
         return frame.midY
     }
     
-    public var maxX: CGFloat {
+    var maxX: CGFloat {
         return frame.maxX
     }
     
-    public var maxY: CGFloat {
+    var maxY: CGFloat {
         return frame.maxY
     }
     /// 图层调试
-    public func getViewLayer() {
+    func getViewLayer() {
 
         let subviews = self.subviews;
         if subviews.count == 0 {
@@ -118,7 +118,7 @@ import Cocoa
          }
      }
     /// 寻找子视图
-    public func findSubview(type: NSResponder.Type, resursion: Bool)-> NSView? {
+    func findSubview(type: NSResponder.Type, resursion: Bool)-> NSView? {
         for e in self.subviews.enumerated() {
             if e.element.isKind(of: type) {
                 return e.element;
@@ -137,7 +137,7 @@ import Cocoa
     }
     
     /// 获取特定类型父视图
-    public func supView(_ type: NSView.Type) -> NSView? {
+    func findSupView(_ type: NSView.Type) -> NSView? {
         var supView = superview
         while supView?.isKind(of: type) == false {
             supView = supView?.superview
@@ -146,7 +146,7 @@ import Cocoa
     }
     
     /// 获取特定类型子视图
-    public func subView(_ type: NSView.Type) -> NSView? {
+    func findSubView(_ type: NSView.Type) -> NSView? {
         for e in self.subviews.enumerated() {
             if e.element.isKind(of: type) {
                 return e.element
@@ -156,7 +156,7 @@ import Cocoa
     }
     
     /// 插入模糊背景
-    public func addVisualEffectView(_ rect: CGRect = .zero) -> NSVisualEffectView {
+    func addVisualEffectView(_ rect: CGRect = .zero) -> NSVisualEffectView {
         let tmpRect = CGRect.zero.equalTo(rect) == false ? rect : self.bounds;
         let effectView = NSVisualEffectView(frame: tmpRect)
         effectView.blendingMode = .behindWindow
@@ -171,12 +171,12 @@ import Cocoa
     
     ///手势 - 轻点 UITapGestureRecognizer
     @discardableResult
-    public func addGestureClick(_ action: @escaping (NSClickGestureRecognizer) -> Void) -> NSClickGestureRecognizer {
+    func addGestureClick(_ action: @escaping ((NSClickGestureRecognizer) -> Void)) -> NSClickGestureRecognizer {
         let obj = NSClickGestureRecognizer()
         addGestureRecognizer(obj)
 
         obj.addAction { (recognizer) in
-            action(recognizer as! NSClickGestureRecognizer)
+            action(recognizer )
         }
         return obj
     }

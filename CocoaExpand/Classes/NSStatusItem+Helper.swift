@@ -12,10 +12,10 @@ import Cocoa
 
     static func create(imageName: String?) -> NSStatusItem {
         var image = NSApplication.appIcon.resize(CGSize(width: 40, height: 30), isPixels: true);
-        if imageName != nil && (NSImage(named: imageName!) != nil) {
-            image = NSImage(named: imageName!)!
+        if let imageName = imageName, let newImage = NSImage(named: imageName) {
+            image = newImage
         }
-
+        
         let statusItem: NSStatusItem = {
             let item = NSStatusBar.system.statusItem(withLength: -2)
             item.button?.cell?.isHighlighted = false;

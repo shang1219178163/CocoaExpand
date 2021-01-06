@@ -26,8 +26,8 @@ public extension Array{
     }
     
     func subarray(_ loc: Int, _ len: Int) -> Array {
-        assert((loc + len) < self.count);
-        return Array(self[loc..<len]);
+        assert((loc + len) <= self.count);
+        return Array(self[loc...len]);
     }
 }
 
